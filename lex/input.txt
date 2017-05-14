@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<!--[if !IE]>
+	<html class="no-js non-ie" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 7 ]>
+	<html class="no-js ie7" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 8 ]>
+	<html class="no-js ie8" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 9 ]>
+	<html class="no-js ie9" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba no-hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" prefix="og: http://ogp.me/ns#" lang="en-US"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porting AOSP ROMs using Source Code - XDA-University</title>
+<div class="fit-vids-style">­<style>         .fluid-width-video-wrapper {        width: 100%;                     position: relative;              padding: 0;                      }                                   .fluid-width-video-wrapper iframe,  .fluid-width-video-wrapper object,  .fluid-width-video-wrapper embed {  position: absolute;              top: 0;                          left: 0;                         width: 100%;                     height: 100%;                    }                                   </style></div><script type="text/javascript" async="" src="input_files/pinit_main.js"></script><script data-rocketsrc="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en_US.fOwIphs-FXA.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=AQ/rs=AGLTcCP1seaVRRZnJUZYZMYWwd68uBLZVA/cb=gapi.loaded_1" data-rocketoptimized="true" async=""></script><script data-rocketsrc="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en_US.fOwIphs-FXA.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=AQ/rs=AGLTcCP1seaVRRZnJUZYZMYWwd68uBLZVA/cb=gapi.loaded_0" data-rocketoptimized="true" async=""></script><script type="text/javascript" async="" data-rocketsrc="https://apis.google.com/js/plusone.js" data-rocketoptimized="true" gapi_processed="true"></script><script type="text/javascript" async="" data-rocketsrc="http://www.google-analytics.com/ga.js" data-rocketoptimized="true"></script><script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"864c16a2dfc2c70ab8f21be69a333185",petok:"58169b3895755c17759e3918c7ed7ac3d1ecc9bd-1490762813-1800",zone:"xda-university.com",rocket:"a",apps:{}}];document.write('<script type="text/javascript" src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=f2befc48d1/cloudflare.min.js"><'+'\/script>');}}catch(e){};
+//]]>
+</script><script type="text/javascript" src="input_files/cloudflare.js"></script><style type="text/css">.cf-hidden { display: none; } .cf-invisible { visibility: hidden; }</style><script data-module="cloudflare/rocket" id="cfjs_block_88ed54740a" onload="CloudFlare.__cfjs_block_88ed54740a_load()" onerror="CloudFlare.__cfjs_block_88ed54740a_error()" onreadystatechange="CloudFlare.__cfjs_block_88ed54740a_readystatechange()" type="text/javascript" src="input_files/rocket.js"></script>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://xda-university.com/xmlrpc.php">
+ 
+<link rel="canonical" href="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Porting AOSP ROMs using Source Code - XDA-University">
+<meta property="og:description" content="This will be a rough guide to help people port their favourite AOSP ROMs using the open source Android code, thereby enabling your device to run full ROMs unofficially, built from source. This means you can be running the latest…Read more ›">
+<meta property="og:url" content="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code">
+<meta property="og:site_name" content="XDA-University">
+<meta property="og:image" content="https://lh3.googleusercontent.com/K7bJmcqjjFFLODaCXyv5f5mmqQTv37mzN4Nk_MMsk_AMeqAk_Ehgj8lXJhpNR_ivvnGzsN2UVM8_xOxuFwwCs_9ItJFNrM-TZtO2ZsXsfA5uRN_zKWU">
+<meta property="og:image" content="https://lh5.googleusercontent.com/MLklLSrYlGnJxQF_U9ZZ_E3kzd25f1TZECEJK995i4TvVF9wzIKdT1lrgl7uj8OhJEQ9osoQpNdoIlV5ApEtRKuKXqMPVBWLcJvFuMExhwsgEtqp6DM">
+<meta property="og:image" content="https://lh3.googleusercontent.com/UrFDjJf5fruwPKKa2E73_ErUo1NfqRkRyVA4I-wLQ2C4XD3Jueg7Q4JPdt73sGRsT75-l1WJIM_0FuOuREFCQ1JlFdClUWnrSrmUndeR44Nqg-ut3L4">
+<meta property="og:image" content="https://lh4.googleusercontent.com/xg96xFx5nSbWSiV9CyIjqSGoIcmCzpmH4yUVfj73mdX5YRRpPbzjqD0pfqRrO4MPpfr8RNJ2RK0GWwcljpaK89dDEVLN5_CwCoiTbvxUhbMC4ct0_TI">
+<meta property="og:image" content="https://lh5.googleusercontent.com/1GFQbcdOpZkaDf-gMVy8pwo4qBgeOK0Pahh53JFpPdhIhM7Wqpj9-92ocLESd6DVbjPbOztwh5ns0Lwzbhg0XjVc11kp8zNZxGWufk23-XMMIOp9nQ">
+<meta property="og:image" content="https://lh4.googleusercontent.com/QCJioBix8wGUB0vFgs1h7sQmVGENlkpSahtD4fb_wPMA3aqtL6bKw4qbi2doP0PZ37Dpv3WrLrdY98BA5hGRszTINTpOV-ILuwMQtZtN2Sudykti7-4">
+ 
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="XDA-University » Feed" href="http://xda-university.com/feed">
+<link rel="alternate" type="application/rss+xml" title="XDA-University » Comments Feed" href="http://xda-university.com/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="XDA-University » Porting AOSP ROMs using Source Code Comments Feed" href="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code/feed">
+<script type="text/rocketscript" data-rocketoptimized="true">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/xda-university.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important;}</style>
+<link rel="stylesheet" id="crayon-css" href="input_files/crayon.css" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="input_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="explanatory_dictionary-plugin-styles-css" href="input_files/public.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-style-css" href="input_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-media-queries-css" href="input_files/responsive.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-child-style-css" href="input_files/style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="explanatory_dictionary-qtip-css" href="input_files/jquery.css" type="text/css" media="">
+<link rel="stylesheet" id="explanatory_dictionary-custom-settings-css" href="input_files/settings.css" type="text/css" media="">
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-includes/js/jquery/jquery.js?ver=1.12.4" data-rocketoptimized="true"></script><script type="text/rocketscript" data-rocketoptimized="true">jQueryWP = jQuery;</script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketoptimized="true">
+/* <![CDATA[ */
+var quicktagsL10n = {"closeAllOpenTags":"Close all open tags","closeTags":"close tags","enterURL":"Enter the URL","enterImageURL":"Enter the URL of the image","enterImageDescription":"Enter a description of the image","textdirection":"text direction","toggleTextdirection":"Toggle Editor Text Direction","dfw":"Distraction-free writing mode","strong":"Bold","strongClose":"Close bold tag","em":"Italic","emClose":"Close italic tag","link":"Insert link","blockquote":"Blockquote","blockquoteClose":"Close blockquote tag","del":"Deleted text (strikethrough)","delClose":"Close deleted text tag","ins":"Inserted text","insClose":"Close inserted text tag","image":"Insert image","ul":"Bulleted list","ulClose":"Close bulleted list tag","ol":"Numbered list","olClose":"Close numbered list tag","li":"List item","liClose":"Close list item tag","code":"Code","codeClose":"Close code tag","more":"Insert Read More tag"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-includes/js/quicktags.min.js?ver=4.7.3" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketoptimized="true">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/xda-university.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+var CrayonTagEditorSettings = {"home_url":"http:\/\/xda-university.com","css":"crayon-te","css_selected":"crayon-selected","code_css":"#crayon-code","url_css":"#crayon-url","url_info_css":"#crayon-te-url-info","lang_css":"#crayon-lang","title_css":"#crayon-title","mark_css":"#crayon-mark","range_css":"#crayon-range","inline_css":"crayon-inline","inline_hide_css":"crayon-hide-inline","inline_hide_only_css":"crayon-hide-inline-only","hl_css":"#crayon-highlight","switch_html":"#content-html","switch_tmce":"#content-tmce","tinymce_button_generic":".mce-btn","tinymce_button":"a.mce_crayon_tinymce,.mce-i-crayon_tinymce","tinymce_button_unique":"mce_crayon_tinymce","tinymce_highlight":"mce-active","submit_css":"#crayon-te-ok","cancel_css":"#crayon-te-cancel","content_css":"#crayon-te-content","dialog_title_css":"#crayon-te-title","submit_wrapper_css":"#crayon-te-submit-wrapper","data_value":"data-value","attr_sep":":","css_sep":"_","fallback_lang":"default","add_text":"Add Code","edit_text":"Edit Code","quicktag_text":"crayon","submit_add":"Add","submit_edit":"Save","bar":"#crayon-te-bar","bar_content":"#crayon-te-bar-content","extensions":{"scpt":"applescript","applescript":"applescript","swf":"as","fla":"as","cs":"c#","h":"c++","hh":"c++","hpp":"c++","hxx":"c++","h++":"c++","cc":"c++","cpp":"c++","cxx":"c++","c++":"c++","pas":"delphi","java":"java","class":"java","jar":"java","mel":"mel","ma":"mel","mv":"miva","mvc":"miva","mvt":"miva","m":"objc","mm":"objc","psc":"papyrus","pl":"perl","py":"python","pyw":"python","pyc":"python","pyo":"python","pyd":"python","rb":"ruby","rbx":"ruby","rhtml":"ruby","vbs":"vb"}};
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/xda-university.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.te.min.js?ver=_2.7.2_beta" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/themes/responsive/core/js/responsive-modernizr.min.js?ver=2.6.1" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.5.0" data-rocketoptimized="true"></script>
+<link rel="https://api.w.org/" href="http://xda-university.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://xda-university.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://xda-university.com/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 4.7.3">
+<link rel="shortlink" href="http://xda-university.com/?p=697">
+<link rel="alternate" type="application/json+oembed" href="http://xda-university.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fxda-university.com%2Fas-a-developer%2Fporting-aosp-roms-using-source-code">
+<link rel="alternate" type="text/xml+oembed" href="http://xda-university.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fxda-university.com%2Fas-a-developer%2Fporting-aosp-roms-using-source-code&amp;format=xml">
+ 
+ 
+<style type="text/css">.social-ring:after{clear:both;}.social-ring:before,.social-ring:after{content:"";display:table;}.social-ring{margin:0 0 0.5em!important;padding:0!important;line-height:20px!important;height:auto;font-size:11px;}.social-ring-button{float:left!important;height:60px;margin:0 5px 0 0!important;padding:0!important;}.social-ring .social-ring-button iframe{max-width:none!important;}</style>
+ 
+ 
+ 
+<style type="text/css">.broken_link,a.broken_link{text-decoration:line-through;}</style> 
+<script type="text/rocketscript" data-rocketoptimized="true">
+    var analyticsFileTypes = [''];
+    var analyticsSnippet = 'enabled';
+    var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/rocketscript" data-rocketoptimized="true">
+	var _gaq = _gaq || [];
+  
+	_gaq.push(['_setAccount', 'UA-35682209-1']);
+    _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+<script data-rocketsrc="http://xda-university.com/wp-includes/js/wp-emoji-release.min.js?ver=4.7.3" data-rocketoptimized="true" type="text/javascript" defer="defer"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style><script type="text/javascript" charset="utf-8" async="" data-rocketsrc="https://platform.twitter.com/js/button.ea31e9a5ca2c3a1514ec1ed6530e2669.js" data-rocketoptimized="true"></script><style type="text/css"> .PIN_1490762817099_embed_grid { 
+  width: 100%;
+  max-width: 257px;
+  min-width: 140px;
+  display: inline-block;
+  box-shadow: inset 0 0 1px #000;
+  border-radius: 5px;
+  overflow: hidden;
+  font: 12px "Helvetica Neue", Helvetica, arial, sans-serif;
+  color: rgb(54, 54, 54);
+  box-sizing: border-box;
+  background: #fff;
+  cursor: pointer;
+  -moz-font-smoothing: antialiased;
+}
+ .PIN_1490762817099_embed_grid * { 
+  display: block;
+  position: relative;
+  font: inherit;
+  cursor: inherit;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_hd { 
+  height: 55px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_hd .PIN_1490762817099_img { 
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 36px;
+  width: 36px;
+  border-radius: 3px;
+  background: transparent url () 0 0 no-repeat;
+  background-size: cover;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_hd .PIN_1490762817099_pinner { 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75%;
+  position: absolute;
+  top: 20px;
+  left: 56px;
+  font-size: 14px;
+  font-weight: bold;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_bd { 
+  padding: 0 10px;
+  -moz-scrollbars: none;
+  -ms-overflow-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_bd .PIN_1490762817099_ct { 
+  width: 100%;
+  height: auto;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  display: inline-block;
+  width: 100%;
+  padding: 1px;
+  vertical-align: top;
+  min-width: 60px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col .PIN_1490762817099_img { 
+  margin: 0;
+  display: inline-block;
+  width: 100%;
+  background: transparent url() 0 0 no-repeat;
+  background-size: cover;
+  box-shadow: inset 0 0 1px #000;
+  border-radius: 2px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft { 
+  padding: 11px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button { 
+  border-radius: 3px;
+  text-align: center;
+  box-shadow: inset 0 0 1px #888;
+  background-color: #efefef;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 33px;
+  width: 100%;
+  min-width: 70px;
+  padding: 0 3px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button .PIN_1490762817099_label { 
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button .PIN_1490762817099_label.PIN_1490762817099_top { 
+  top: 0;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button .PIN_1490762817099_label.PIN_1490762817099_bottom { 
+  bottom: 0;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button .PIN_1490762817099_label .PIN_1490762817099_string { 
+  white-space: pre;
+  color: #746d6a;
+  font-size: 13px;
+  font-weight: bold;
+  vertical-align: top;
+  display: inline-block;
+  height: 33px;
+  line-height: 33px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button .PIN_1490762817099_label .PIN_1490762817099_logo { 
+  display: inline-block;
+  vertical-align: top;
+  height: 33px;
+  width: 65px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTZweCIgd2lkdGg9IjY0cHgiIHZpZXdCb3g9IjAgMCA2NCAxNiI+PGc+PHBhdGggZD0iTTMzLjIxNSw3LjY2NyBDMzMuODg4LDcuNjY3IDM0LjEyMiw4LjA3NSAzNC4xMjIsOC41NjIgQzM0LjEyMiw5LjM4NiAzMy40ODIsOS44ODkgMzIuNDgxLDkuODg5IEMzMi4xMjQsOS44ODkgMzEuNjI1LDkuODA0IDMxLjMyOSw5LjcwNCBDMzEuNDUyLDguOTQ4IDMxLjk0LDcuNjY3IDMzLjIxNSw3LjY2NyBMMzMuMjE1LDcuNjY3IFogTTQ3LjY2OSw3LjY2NyBDNDguMjg0LDcuNjY3IDQ4LjU3MSw4LjA3NSA0OC41NzEsOC41NjIgQzQ4LjU3MSw5LjM4NiA0Ny45MzYsOS44ODkgNDYuOTMxLDkuODg5IEM0Ni41NzIsOS44ODkgNDYuMDcsOS44MDQgNDUuNzcyLDkuNzA0IEM0NS44OTUsOC45NDggNDYuNDM5LDcuNjY3IDQ3LjY1OSw3LjY2NyBMNDcuNjY5LDcuNjY3IFogTTYyLjkwNiw3LjczNiBDNjMuMTExLDcuNzM2IDYzLjI0NSw3LjY1IDYzLjI4Niw3LjQ1NCBDNjMuMzQ3LDcuMTY2IDYzLjQ3LDYuNjY0IDYzLjUxMSw2LjUzMSBDNjMuNTUyLDYuMzU2IDYzLjQ1LDYuMjIzIDYzLjI1NSw2LjIyMyBMNjEuNzM3LDYuMjIzIEM2MS44NCw1Ljc4MiA2Mi4yNzEsNC4zNjcgNjIuMjcxLDMuNDQ0IEM2Mi4yNzEsMS41OTkgNjAuNzAyLDAuMDMgNTguNDg3LDAuMDMgQzU1Ljk3NSwwLjAzIDU0LjM0NCwxLjcxMSA1NC4zNDQsNC4wOCBDNTQuMzQ0LDQuNzY3IDU0LjYwMSw1LjU3NyA1NC45MTksNi4wNjkgQzU0Ljc4NSw2LjA1OSA1NC42NDIsNi4wNTQgNTQuNTA4LDYuMDU0IEM1Mi42MDEsNi4wNTQgNTEuNDAyLDcuMDkgNTEuNDAyLDguNTkzIEM1MS40MDIsMTAuMDA4IDUyLjUwOSwxMC41NTkgNTMuNTY1LDEwLjkyIEM1NC40ODgsMTEuMjQ5IDU1LjM0OSwxMS40IDU1LjM0OSwxMi4xMiBDNTUuMzQ5LDEyLjYxMiA1NC44NzgsMTIuODk5IDUzLjk1NSwxMi44OTkgQzUyLjg1OCwxMi44OTkgNTIuMjUzLDEyLjM4NyA1Mi4wOTksMTIuMTkyIEM1Mi4yMDEsMTIuMTEgNTIuMzU1LDExLjkxNSA1Mi4zNTUsMTEuNTk1IEM1Mi4zNTUsMTEuMTQ0IDUyLjAzOSwxMC43NzUgNTEuNDQ5LDEwLjc3NSBDNTAuOTQ4LDEwLjc3NSA1MC41MjYsMTEuMTg1IDUwLjQxOSwxMS43MTggQzQ5LjYxOSwxMi4zNzQgNDguNzQzLDEyLjgwMiA0Ny41MDMsMTIuODAyIEM0Ni4yODMsMTIuODAyIDQ1LjY0NywxMi4xNjYgNDUuNjQ3LDEwLjgxMyBDNDUuOTM0LDEwLjkwMiA0Ni42ODMsMTEuMDA4IDQ3LjE3NSwxMS4wMDggQzQ5LjI0NiwxMS4wMDggNTAuNjUxLDEwLjA2NCA1MC42NTEsOC4xODQgQzUwLjY1MSw3LjE3MiA0OS43NjksNi4xMDggNDguMDA1LDYuMTA4IEM0NS42OTIsNi4xMDggNDQuMzk5LDcuNTc1IDQzLjgzMiw5LjE4NCBMNDMuMzU1LDkuMDc2IEM0My40ODksOC43MTcgNDMuNTc3LDguMzAxIDQzLjU3Nyw3Ljg0NSBDNDMuNTc3LDcuMDQ1IDQzLjA4NSw2LjEwNyA0MS43NjIsNi4xMDcgQzQwLjg0NSw2LjEwNyAzOS45NzQsNi43MDggMzkuMzcsNy42MSBMMzkuNjI2LDYuNjA2IEMzOS42NjQsNi40NTIgMzkuNTk5LDYuMjgzIDM5LjM1OSw2LjI4MyBMMzguMDA2LDYuMjgzIEMzNy44MTQsNi4yODMgMzcuNjc4LDYuMzU0IDM3LjYyLDYuNTcgTDM2LjY2NywxMC4zMTIgQzM2LjM5LDExLjQzIDM0LjkxMywxMi44MTQgMzMuMDU3LDEyLjgxNCBDMzEuODM1LDEyLjgxNCAzMS4yMDEsMTIuMTM4IDMxLjIwMSwxMC43ODQgQzMxLjUyMiwxMC45MTIgMzIuMjM1LDExLjAyIDMyLjcyNiwxMS4wMiBDMzQuODc5LDExLjAyIDM2LjIwNSwxMC4wODEgMzYuMjA1LDguMTk3IEMzNi4yMDUsNy4xODcgMzUuMzEzLDYuMTI0IDMzLjU2LDYuMTI0IEMzMC45NDUsNi4xMjQgMjkuMzQ1LDguMTQ4IDI5LjA3OSwxMC40NDEgQzI4Ljk2NiwxMS4zOTQgMjguMTU2LDEyLjcwMyAyNy4yODQsMTIuNzAzIEMyNi44NjQsMTIuNzAzIDI2LjYyOCwxMi40MzYgMjYuNjI4LDExLjk4NSBDMjYuNjI4LDExLjU5NSAyNi45MDEsMTAuNjMxIDI3LjIwMiw5LjQzMiBDMjcuMzA1LDkuMDMyIDI3LjQ1Niw4LjQxNiAyNy42MjYsNy43NCBMMjkuMDUxLDcuNzQgQzI5LjI1OSw3Ljc0IDI5LjM4Miw3LjY0NyAyOS40MzEsNy40NTMgQzI5LjQ5OCw3LjE2NSAyOS42MjIsNi42NzMgMjkuNjU2LDYuNTQgQzI5LjcwNCw2LjM2NiAyOS42MDEsNi4yMjcgMjkuNDA0LDYuMjI3IEwyOC4wMDksNi4yMjcgTDI4LjY2NiwzLjYwNiBDMjguNzI3LDMuMzQ2IDI4LjUwOCwzLjE5NiAyOC4yODEsMy4yNDQgQzI4LjI4MSwzLjI0NCAyNy4yMDQsMy40NTUgMjcuMDA2LDMuNDk4IEMyNi44MDQsMy41MzkgMjYuNjQ3LDMuNjQ2IDI2LjU3NSwzLjkzOSBMMjYuMDExLDYuMjI1IEwyNC45MDQsNi4yMjUgQzI0LjY5MSw2LjIyNSAyNC41NjgsNi4zMTIgMjQuNTIyLDYuNTA5IEMyNC40NTMsNi43OTIgMjQuMzI3LDcuMjg4IDI0LjI5Myw3LjQyMiBDMjQuMjQ1LDcuNiAyNC4zNSw3LjczNSAyNC41NSw3LjczNSBMMjUuNjQ1LDcuNzM1IEMyNS42MzgsNy43NjkgMjUuMjUsOS4yNDIgMjQuOTM3LDEwLjU2NSBDMjQuNzg5LDExLjIwNCAyNC4yOTMsMTIuNjkxIDIzLjQ4MSwxMi42OTEgQzIyLjk5OSwxMi42OTEgMjIuNzk0LDEyLjQ0NSAyMi43OTQsMTEuOTIyIEMyMi43OTQsMTEuMDk2IDIzLjYwNiw5LjAzMSAyMy42MDYsOC4wOTMgQzIzLjYwNiw2Ljg0MiAyMi45MzUsNi4xMTQgMjEuNTU5LDYuMTE0IEMyMC42OTMsNi4xMTQgMTkuNzk1LDYuNjc4IDE5LjQxNCw3LjE3MSBDMTkuNDE0LDcuMTcxIDE5LjUyOSw2Ljc3MSAxOS41Nyw2LjYxNyBDMTkuNjEyLDYuNDUzIDE5LjUyOSw2LjI5MiAxOS4zMTQsNi4yOTIgTDE3Ljk3MSw2LjI5MiBDMTcuNjg0LDYuMjkyIDE3LjYwOSw2LjQ0NiAxNy41NjcsNi42MTIgTDE2LjU5OCwxMC40MDYgQzE2LjI3NSwxMS42NTcgMTUuNTAzLDEyLjcwMyAxNC42OCwxMi43MDMgQzE0LjI1LDEyLjcwMyAxNC4wNjUsMTIuNDM2IDE0LjA2NSwxMS45NzQgQzE0LjA2NSwxMS41ODUgMTQuMzEzLDEwLjYyMSAxNC42MTksOS40MjEgQzE0Ljk4Myw3Ljk2NSAxNS4zMDYsNi43NjYgMTUuMzQyLDYuNjIyIEMxNS4zODgsNi40NDQgMTUuMzA3LDYuMjg4IDE1LjA3NSw2LjI4OCBMMTMuNzIyLDYuMjg4IEMxMy40NzYsNi4yODggMTMuMzg4LDYuNDE0IDEzLjMzOCw2LjU5NSBDMTMuMzM4LDYuNTk1IDEyLjk1OSw4LjAzNCAxMi41NTcsOS42NDEgQzEyLjI3LDEwLjgwNiAxMS45NDIsMTEuOTkzIDExLjk0MiwxMi41NDkgQzExLjk0MiwxMy41NDMgMTIuMzg2LDE0LjI5MiAxMy42MTYsMTQuMjkyIEMxNC41NTksMTQuMjkyIDE1LjMwOCwxMy44MSAxNS44ODIsMTMuMjAyIEwxNS43MzksMTMuNzY2IEMxNS42ODcsMTMuOTU3IDE1Ljc0OSwxNC4xMjUgMTUuOTY3LDE0LjEyNSBMMTcuMzUyLDE0LjEyNSBDMTcuNTkzLDE0LjEyNSAxNy42ODUsMTQuMDI3IDE3LjczNiwxMy44MTcgTDE4LjgzMyw5LjU1MSBDMTkuMTAzLDguNDUxIDE5Ljc3Nyw3LjcyNiAyMC43Myw3LjcyNiBDMjEuMTgxLDcuNzI2IDIxLjU3MSw4LjAyNCAyMS41MjYsOC42MDUgQzIxLjQ3NSw5LjI0NCAyMC43MDYsMTEuNTM4IDIwLjcwNiwxMi41NDUgQzIwLjcwNiwxMy4zMDMgMjAuOTg5LDE0LjI4OCAyMi40MjIsMTQuMjg4IEMyMy4zOTYsMTQuMjg4IDI0LjExNCwxMy44MTYgMjQuNjM3LDEzLjIxMSBDMjQuODMyLDEzLjg0OSAyNS4zMzQsMTQuMjggMjYuMjY3LDE0LjI4IEMyNy44MTYsMTQuMjggMjguNzQ5LDEzLjM2IDI5LjMwMiwxMi40MzggQzI5Ljc1MSwxMy41MTUgMzAuODE1LDE0LjI4NCAzMi4zNzksMTQuMjg0IEMzMy45NjgsMTQuMjg0IDM1LjIwNCwxMy42MSAzNi4wNzYsMTIuNjk3IEwzNS44MDYsMTMuNzgxIEMzNS43NTUsMTMuOTczIDM1Ljg0MSwxNC4xMjUgMzYuMDY3LDE0LjEyNSBMMzcuNDM3LDE0LjEyNSBDMzcuNjIxLDE0LjEyNSAzNy43NTcsMTQuMDI4IDM3LjgwNiwxMy44MyBDMzcuODI4LDEzLjczNCAzOC4wMjcsMTIuOTY5IDM4LjMwOCwxMS44ODIgQzM4Ljg0Miw5LjgwMSAzOS43MDMsNy42NDIgNDAuOTkzLDcuNjQyIEM0MS40NDksNy42NDIgNDEuNjM3LDcuODk3IDQxLjYzNyw4LjI5OCBDNDEuNjM3LDguNDg3IDQxLjU4MSw4LjY0OSA0MS41MzQsOC43MzkgQzQwLjkwOSw4LjYxNCA0MC40MDQsOC45MjIgNDAuNDA0LDkuNTkgQzQwLjQwNCwxMC4wMjcgNDAuODYzLDEwLjQyMyA0MS40ODEsMTAuNDIzIEM0MS45NTMsMTAuNDIzIDQyLjM0NSwxMC4zMDggNDIuNjU3LDEwLjA5NyBDNDIuOTU0LDEwLjE1OSA0My4yNjIsMTAuMjI1IDQzLjU4LDEwLjI5NyBDNDMuNTM5LDEwLjYxIDQzLjUwOCwxMC45MTggNDMuNTA4LDExLjIwNyBDNDMuNTA4LDEyLjg3OSA0NC43NjksMTQuMjk3IDQ2LjkwMiwxNC4yOTcgQzQ4LjU4NCwxNC4yOTcgNDkuNjUsMTMuNzMzIDUwLjY2NSwxMi44OTggQzUxLjE0NywxMy42NzggNTIuMzQ3LDE0LjMwMyA1My45MjYsMTQuMzAzIEM1Ni4wOSwxNC4zMDMgNTcuMzIsMTMuMTc1IDU3LjMyLDExLjY4OCBDNTcuMzIsMTAuMzM1IDU2LjIxMyw5Ljg0MyA1NS4wNzQsOS40MzMgQzU0LjE1Miw5LjA5NCA1My4zNzIsOC45MiA1My4zNzIsOC4yNjQgQzUzLjM3Miw3LjcyIDUzLjgwMyw3LjQ3NCA1NC41MjEsNy40NzQgQzU0Ljk5Miw3LjQ3NCA1NS4zNDEsNy41NzcgNTUuNTM2LDcuNjI4IEM1NS43Miw4LjA4OSA1Ni4xMSw4LjYxMiA1Ni43NzcsOC42MTIgQzU3LjMzNSw4LjYxMiA1Ny41ODcsOC4xNzEgNTcuNTg3LDcuNzYxIEM1Ny41ODcsNi42MDIgNTUuNjU3LDYuNDc5IDU1LjY1NywzLjk5OCBDNTUuNjU3LDIuNDUgNTYuNTMzLDEuMTc4IDU4LjM0MywxLjE3OCBDNTkuNjAzLDEuMTc4IDYwLjQyNSwxLjk3OCA2MC40MjUsMy4yNiBDNjAuNDI1LDQuMzE2IDU5Ljc3OSw2LjIxMyA1OS43NzksNi4yMTMgTDU4LjY4Miw2LjIxMyBDNTguNDcyLDYuMjEzIDU4LjM0Nyw2LjI5NSA1OC4yOTksNi40OSBMNTguMDcxLDcuNDAyIEM1OC4wMjcsNy41NzcgNTguMTI4LDcuNzEgNTguMzI3LDcuNzEgTDU5LjM5Myw3LjcxIEM1OS42MTcsNy43NDkgNTguMjg2LDEyLjQ1IDU4LjI4NiwxMi41MjkgQzU4LjI4NiwxMy41MjQgNTguODQ4LDE0LjI3MiA2MC4wNzUsMTQuMjcyIEM2MS44MDgsMTQuMjcyIDYyLjg5NSwxMy4xNDQgNjMuMzY3LDExLjUwNCBDNjMuNDA0LDExLjM3MyA2My4zMzMsMTEuMjcgNjMuMjAzLDExLjI3IEw2Mi41MzYsMTEuMjcgQzYyLjQwMywxMS4yNyA2Mi4zMjcsMTEuMzQ0IDYyLjI5NCwxMS40NzUgQzYyLjE0OCwxMi4wNiA2MS43NzgsMTIuNjc1IDYxLjA0MywxMi42NzUgQzYwLjYyMywxMi42NzUgNjAuMzg1LDEyLjQwOCA2MC4zODUsMTEuOTUxIEM2MC4zODUsMTEuNTYxIDYxLjM5LDcuNzA5IDYxLjM5LDcuNzA5IEw2Mi45MDYsNy43MzYgTDYyLjkwNiw3LjczNiBaIE0xNi4wOTksNC4xMyBDMTYuMDUyLDQuODQ1IDE1LjQ1Myw1LjQyNiAxNC43NjMsNS40MjYgQzE0LjA3Niw1LjQyNiAxMy41NTQsNC44NDUgMTMuNjA1LDQuMTI5IEMxMy42NTYsMy40MTQgMTQuMjUxLDIuODMzIDE0Ljk0LDIuODMzIEMxNS42MjksMi44MzMgMTYuMTUsMy40MDkgMTYuMDk5LDQuMTI1IEwxNi4wOTksNC4xMyBaIE02LjQ1LDAgQzIuMjQ2LDAgMC4wMSwyLjgyNSAwLjAxLDUuOTAyIEMwLDcuMzQyIDAuNzY0LDkuMTIyIDEuOTc5LDkuNjkgQzIuMTY0LDkuNzc1IDIuMjYyLDkuNzM3IDIuMzA0LDkuNTU5IEMyLjMzNSw5LjQyMyAyLjUwMSw4Ljc2MiAyLjU3NSw4LjQ1MyBDMi42MDYsOC4zNTUgMi41OTUsOC4yNjkgMi41MTMsOC4xNzIgQzIuMTEzLDcuNjg2IDEuNzk1LDYuNzg4IDEuNzk1LDUuOTQ5IEMxLjc5NSwzLjggMy40MjYsMS43MiA2LjE5NCwxLjcyIEM4LjU5NCwxLjcyIDEwLjI2NSwzLjM1IDEwLjI2NSw1LjY4NSBDMTAuMjY1LDguMzIyIDguOTQyLDEwLjE0OCA3LjIwOSwxMC4xNDggQzYuMjU2LDEwLjE0OCA1LjUzOCw5LjM1OSA1Ljc2NCw4LjM4NyBDNi4wNDEsNy4yMjggNi41NzQsNS45NzcgNi41NzQsNS4xMzYgQzYuNTc0LDQuMzg4IDYuMTc0LDMuNzYyIDUuMzQzLDMuNzYyIEM0LjM2OSwzLjc2MiAzLjU4LDQuNzY3IDMuNTgsNi4xMzEgQzMuNTgsNi45OTIgMy44NzcsNy41NzcgMy44NzcsNy41NzcgTDIuNzA3LDEyLjQyOCBDMi40MDcsMTMuNzIgMi43NDgsMTUuODExIDIuNzc3LDE1Ljk5MyBDMi43OTIsMTYuMDkgMi45LDE2LjEyNCAyLjk2MSwxNi4wNDEgQzMuMDU4LDE1LjkxNSA0LjIyMywxNC4xNjkgNC41NTEsMTIuOTA2IEw1LjE1NiwxMC41ODggQzUuNDc3LDExLjE5MyA2LjQwNCwxMS43MDYgNy4zOTEsMTEuNzA2IEMxMC4zMzEsMTEuNzA2IDEyLjQ1LDkuMDAzIDEyLjQ1LDUuNjQ0IEMxMi40NSwyLjQyNCA5LjgyMiwwLjAxNCA2LjQ0MSwwLjAxNCBMNi40NSwwIFoiIGZpbGw9IiNiZDA4MWMiPjwvcGF0aD48L2c+PC9zdmc+) 50% 50% no-repeat;
+  background-size: 60px 15px;
+}
+ .PIN_1490762817099_embed_grid .PIN_1490762817099_ft .PIN_1490762817099_button:hover { 
+  box-shadow: inset 0 0 1px #000;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_noscroll .PIN_1490762817099_bd { 
+  overflow: hidden;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_board .PIN_1490762817099_hd .PIN_1490762817099_pinner { 
+  top: 10px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_board .PIN_1490762817099_hd .PIN_1490762817099_board { 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75%;
+  position: absolute;
+  bottom: 10px;
+  left: 56px;
+  color: #8e8e8e;
+  font-size: 12px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c2 { 
+  max-width: 494px;
+  min-width: 140px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c2 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 50%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c3 { 
+  max-width: 731px;
+  min-width: 200px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c3 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 33.33%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c4 { 
+  max-width: 968px;
+  min-width: 260px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c4 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 25%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c5 { 
+  max-width: 1205px;
+  min-width: 320px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c5 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 20%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c6 { 
+  max-width: 1442px;
+  min-width: 380px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c6 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 16.66%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c7 { 
+  max-width: 1679px;
+  min-width: 440px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c7 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 14.28%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c8 { 
+  max-width: 1916px;
+  min-width: 500px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c8 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 12.5%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c9 { 
+  max-width: 2153px;
+  min-width: 560px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c9 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 11.11%;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c10 { 
+  max-width: 2390px;
+  min-width: 620px;
+}
+ .PIN_1490762817099_embed_grid.PIN_1490762817099_c10 .PIN_1490762817099_bd .PIN_1490762817099_ct .PIN_1490762817099_col { 
+  width: 10%;
+}
+ .PIN_1490762817099_embed_pin { 
+  width: 100%;
+  min-width: 160px;
+  max-width: 236px;
+  display: inline-block;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 1px #000;
+  border-radius: 5px;
+  overflow: hidden;
+  font: 12px "Helvetica Neue", Helvetica, arial, sans-serif;
+  color: #363636;
+  background: #fff;
+  cursor: pointer;
+  -moz-font-smoothing: antialiased;
+}
+ .PIN_1490762817099_embed_pin * { 
+  display: block;
+  position: relative;
+  font: inherit;
+  cursor: inherit;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd { 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd { 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container { 
+  width: 100%;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_img,  .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_iframe,  .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_video { 
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  background: transparent url() 0 0 no-repeat;
+  background-size: cover;
+  border: none;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_native { 
+  height: 64px;
+  width: 64px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNjNweCIgd2lkdGg9IjYzcHgiIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGc+PHBhdGggZD0iTSAzMiAzMiBtIC0zMiwgMCBhIDMxLCAzMSAwIDEsIDAgNjMsIDAgYSAzMSwgMzEgMCAxLDAgLTYzLCAwIHoiIGZpbGw9IiMwMDAiPjwvcGF0aD48cGF0aCBkPSJNIDI1IDE5IEwgNDggMzIgIEwgMjUgNDUgWiIgZmlsbD0iI2ZmZiI+PC9wYXRoPjwvZz48L3N2Zz4=) 0 0 no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -32px;
+  margin-left: -32px;
+  opacity: .75;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_control { 
+  width: 50px;
+  height: 24px;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, .4);
+  color: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+  border: 2px solid rgba(255, 255, 255, .68);
+  border-radius: 13px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_control.PIN_1490762817099_paused::after,  .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_control.PIN_1490762817099_playing::after { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  line-height: 19px;
+  white-space: pre;
+  font-weight: bold;
+  font-style: normal;
+  text-align: center;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_control.PIN_1490762817099_paused::after { 
+  content: "▶ GIF";
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_control.PIN_1490762817099_playing::after { 
+  content: "❙ ❙ GIF";
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_repin { 
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 28px;
+  width: auto;
+  color: #fff;
+  background: #bd081c url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 5px 50% no-repeat;
+  background-size: 18px 18px;
+  text-indent: 28px;
+  font: 14px/28px "Helvetica Neue", Helvetica, Arial, "sans-serif";
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 0 6px 0 0;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_repin:hover { 
+  background-color: #aa0719;
+  box-shadow: none;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source { 
+  height: 38px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_img { 
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 10px;
+  height: 16px;
+  width: 16px;
+  background: transparent url() 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_domain { 
+  line-height: 38px;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: #b9b9b9;
+  position: absolute;
+  top: 0px;
+  left: 35px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source.PIN_1490762817099_nofav .PIN_1490762817099_img { 
+  display: none;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source.PIN_1490762817099_nofav .PIN_1490762817099_domain { 
+  max-width: 85%;
+  left: 10px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_menu { 
+  height: inherit;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_menu .PIN_1490762817099_toggle { 
+  position: absolute;
+  top: 0;
+  right: 5px;
+  height: inherit;
+  width: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  background: #fff url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNXB4IiB3aWR0aD0iMjBweCIgdmlld0JveD0iMCAwIDIwIDUiPjxnPjxwYXRoIGQ9Ik0xNy41LDUgQzE4Ljg4MSw1IDIwLDMuODgxIDIwLDIuNSBDMjAsMS4xMTkgMTguODgxLDAgMTcuNSwwIEMxNi4xMTksMCAxNSwxLjExOSAxNSwyLjUgQzE1LDMuODgxIDE2LjExOSw1IDE3LjUsNSBaIE0xMCw1IEMxMS4zOCw1IDEyLjUsMy44ODEgMTIuNSwyLjUgQzEyLjUsMS4xMTkgMTEuMzgsMCAxMCwwIEM4LjYyLDAgNy41LDEuMTE5IDcuNSwyLjUgQzcuNSwzLjg4MSA4LjYyLDUgMTAsNSBNMi41LDUgQzMuODgxLDUgNSwzLjg4MSA1LDIuNSBDNSwxLjExOSAzLjg4MSwwIDIuNSwwIEMxLjEyLDAgMCwxLjExOSAwLDIuNSBDMCwzLjg4MSAxLjEyIDUsMi41LDUgWiIgZmlsbD0iI2I1YjViNSI+PC9wYXRoPjwvZz48L3N2Zz4=) 50% 50% no-repeat;
+  background-size: fill;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_menu .PIN_1490762817099_dropdown { 
+  display: none;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .33);
+  font-weight: bold;
+  font-size: 12px;
+  background: #fff;
+  text-align: left;
+  padding: 10px;
+  position: absolute;
+  max-width: 195px;
+  right: 10px;
+  top: 39px;
+  z-index: 1;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_menu .PIN_1490762817099_dropdown::after { 
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 1px;
+  border-bottom: 8px solid #fff;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_menu .PIN_1490762817099_dropdown::before { 
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 2px;
+  border-bottom: 7px solid #e2e2e2;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_description { 
+  font-size: 14px;
+  line-height: 17px;
+  margin: 8px 12px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_attribution { 
+  height: 22px;
+  margin-top: 5px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_attribution .PIN_1490762817099_img { 
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 10px;
+  height: 16px;
+  width: 16px;
+  background: transparent url() 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_attribution .PIN_1490762817099_by { 
+  line-height: 22px;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  font-weight: bold;
+  color: #b9b9b9;
+  position: absolute;
+  top: 0px;
+  left: 35px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_stats { 
+  height: 24px;
+  line-height: 24px;
+  margin: 0 0 0 10px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_stats .PIN_1490762817099_repins,  .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_stats .PIN_1490762817099_likes { 
+  padding-left: 17px;
+  padding-right: 10px;
+  color: #a8a8a8;
+  font-size: 11px;
+  font-weight: bold;
+  display: inline-block;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_stats .PIN_1490762817099_repins { 
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTRweCIgd2lkdGg9IjE0cHgiIHZpZXdCb3g9IjAgMCAxNCAxNCI+PGc+PHBhdGggZD0iTTExLjk3OSw2Ljg1OSBMMTMuOTksNS4wMTEgTDExLjI0MSw1LjAxMSBMMTAuNDg2LDAgTDkuNzM5LDUuMDExIEw3LDUuMDExIEw4Ljk4Niw2Ljg1OCBMOC45ODYsMTEuMDE3IEM4LjUwNSwxMC45ODUgOC4xNDMsMTEuMDEyIDguMTQzLDExLjIxMyBDOC4xNDMsMTEuNjg3IDguNTAzLDEyLjAwMSA4Ljk4NiwxMi4wMDEgTDExLjk4MiwxMiBDMTIuNDY1LDEyIDEyLjg4OCwxMS42ODYgMTIuODg4LDExLjIxMyBDMTIuODg4LDExLjAxMSAxMi40NjUsMTAuOTg1IDExLjk4MiwxMS4wMTcgTDExLjk3OSw2Ljg1OSBaIE00Ljk3OSw3LjE0MiBMNi45OSw4Ljk5IEw0LjI0MSw4Ljk5IEwzLjQ4NiwxNC4wMDEgTDIuNzM5LDguOTkgTDAsOC45OSBMMS45ODYsNy4xNDMgTDEuOTg2LDIuOTg0IEMxLjUwNSwzLjAxNiAxLjE0MywyLjk4OSAxLjE0MywyLjc4OCBDMS4xNDMsMi4zMTUgMS41MDMsMiAxLjk4NiwyIEw0Ljk4MiwyLjAwMSBDNS40NjUsMi4wMDEgNS44ODgsMi4zMTUgNS44ODgsMi43ODkgQzUuODg4LDIuOTkgNS40NjUsMy4wMTcgNC45ODIsMi45ODQgTDQuOTc5LDcuMTQyIFoiIGZpbGw9IiNiNWI1YjUiPjwvcGF0aD48L2c+PC9zdmc+) 0 50% no-repeat;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_bd .PIN_1490762817099_stats .PIN_1490762817099_likes { 
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTNweCIgd2lkdGg9IjE1cHgiIHZpZXdCb3g9IjAgMCAxNSAxMyI+PGc+PHBhdGggZD0iTTcuMzY5LDEyLjQzNyBMMS40NDEsNi40MSBDMC4yMTcsNS4xNjUgMCwzLjE1NiAxLjA2OCwxLjc3IEMyLjM0OCwwLjEwOCA0LjcyLDAgNi4xNDIsMS40NDYgTDcuMzY5LDIuNjk0IEw4LjUwNiwxLjUzOSBDOS43MywwLjI5MyAxMS43MDYsMC4wNzMgMTMuMDcsMS4xNTkgQzE0LjcwNSwyLjQ2MSAxNC44MTEsNC44NzIgMTMuMzg4LDYuMzE4IEw3LjM2OSwxMi40MzcgWiIgZmlsbD0iI2I1YjViNSI+PC9wYXRoPjwvZz48L3N2Zz4=) 0 51% no-repeat;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft { 
+  height: 50px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft:after { 
+  content: '-------------------------------------------------------------------------------------';
+  display: block;
+  height: 1px;
+  line-height: 1px;
+  color: #fff;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft .PIN_1490762817099_img { 
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  background: transparent url() 0 0 no-repeat;
+  background-size: 30px 30px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft .PIN_1490762817099_pinner,  .PIN_1490762817099_embed_pin .PIN_1490762817099_ft  .PIN_1490762817099_board { 
+  position: absolute;
+  left: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75%;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft .PIN_1490762817099_pinner { 
+  font-weight: bold;
+  top: 10px;
+}
+ .PIN_1490762817099_embed_pin .PIN_1490762817099_ft .PIN_1490762817099_board { 
+  bottom: 10px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_ja .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_repin { 
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgd2lkdGg9IjQxcHgiIHZpZXdCb3g9IjAgMCA0MSAxOCI+PGc+PHBhdGggZD0iTTE5LjgyMiw3LjE3MyBDMTkuODIyLDYuNTEgMTkuODM1LDYuMjc2IDE5Ljg4Nyw1Ljk2NCBMMTguMTQ1LDUuOTY0IEMxOC4xOTcsNi4yODkgMTguMTk3LDYuNDk3IDE4LjE5Nyw3LjE2IEwxOC4yMSwxMy4xOTIgQzE4LjIxLDEzLjk0NiAxOC4yMjMsMTQuMTY3IDE4LjI0OSwxNC4zODggQzE4LjMyNywxNS4wMjUgMTguNTIyLDE1LjQ0MSAxOC44ODYsMTUuNzE0IEMxOS4zOTMsMTYuMTA0IDIwLjI5LDE2LjI3MyAyMS45MjgsMTYuMjczIEMyMi43MjEsMTYuMjczIDI0LjM1OSwxNi4xOTUgMjUuMTI2LDE2LjExNyBDMjYuNTA0LDE1Ljk4NyAyNi41NjksMTUuOTc0IDI2Ljg0MiwxNS45NzQgTDI2Ljc2NCwxNC4yNDUgQzI2LjE5MiwxNC40MTQgMjUuOTA2LDE0LjQ3OSAyNS4yODIsMTQuNTU3IEMyNC4zMzMsMTQuNjg3IDIzLjEzNywxNC43NjUgMjIuMjY2LDE0Ljc2NSBDMjEuMDA1LDE0Ljc2NSAyMC4yNjQsMTQuNjQ4IDIwLjA0MywxNC40MjcgQzE5Ljg2MSwxNC4yNDUgMTkuODA5LDEzLjk1OSAxOS44MDksMTMuMjMxIEMxOS44MDksMTMuMTc5IDE5LjgwOSwxMy4xMDEgMTkuODIyLDEzLjAyMyBMMTkuODIyLDExLjMwNyBDMjEuOTkzLDEwLjkwNCAyNC4wMDgsMTAuMjI4IDI1LjkzMiw5LjI0IEwyNi4yNyw5LjA3MSBDMjYuMzc0LDkuMDE5IDI2LjQsOS4wMDYgMjYuNTQzLDguOTU0IEwyNS41MDMsNy40ODUgQzI0LjY1OCw4LjI3OCAyMS43ODUsOS40MzUgMTkuODIyLDkuNzk5IEwxOS44MjIsNy4xNzMgWiBNMjcuMzEsNC44NzIgQzI2LjQ5MSw0Ljg3MiAyNS44MTUsNS41NDggMjUuODE1LDYuMzY3IEMyNS44MTUsNy4xOTkgMjYuNDkxLDcuODc1IDI3LjMxLDcuODc1IEMyOC4xNDIsNy44NzUgMjguODE4LDcuMTk5IDI4LjgxOCw2LjM2NyBDMjguODE4LDUuNTQ4IDI4LjE0Miw0Ljg3MiAyNy4zMSw0Ljg3MiBMMjcuMzEsNC44NzIgWiBNMjcuMzEsNS41MjIgQzI3Ljc5MSw1LjUyMiAyOC4xNjgsNS44OTkgMjguMTY4LDYuMzY3IEMyOC4xNjgsNi44MzUgMjcuNzkxLDcuMjI1IDI3LjMxLDcuMjI1IEMyNi44NDIsNy4yMjUgMjYuNDY1LDYuODM1IDI2LjQ2NSw2LjM2NyBDMjYuNDY1LDUuODk5IDI2Ljg0Miw1LjUyMiAyNy4zMSw1LjUyMiBMMjcuMzEsNS41MjIgWiBNMzAuNTg2LDcuNjU0IEMzMS43OTUsOC4zMyAzMi44NjEsOS4xODggMzMuOTAxLDEwLjI5MyBMMzUuMDE5LDguODc2IEMzNC4wMTgsNy45MjcgMzMuMjEyLDcuMzI5IDMxLjY2NSw2LjM2NyBMMzAuNTg2LDcuNjU0IFogTTMxLjA0MSwxNi4yMzQgQzMxLjM0LDE2LjEzIDMxLjM3OSwxNi4xMTcgMzEuODk5LDE2LjAxMyBDMzMuOTE0LDE1LjU4NCAzNS41MjYsMTQuOTQ3IDM2Ljg1MiwxNC4wNjMgQzM4LjYzMywxMi44OCAzOS44NjgsMTEuMzQ2IDQwLjk3Myw4Ljk2NyBDNDAuMzEsOC40OTkgNDAuMTAyLDguMzA0IDM5LjU5NSw3LjY5MyBDMzkuMjA1LDguNzQ2IDM4Ljg0MSw5LjQ2MSAzOC4yNjksMTAuMjkzIEMzNy4yNDIsMTEuNzc1IDM2LjAzMywxMi43NzYgMzQuNDA4LDEzLjQ3OCBDMzMuMjI1LDEzLjk5OCAzMS42NzgsMTQuMzc1IDMwLjU2LDE0LjQ0IEwzMS4wNDEsMTYuMjM0IFogTTcuNDU4LDAgQzIuNSwwIDAsMy41MjIgMCw2LjQ1OSBDMCw4LjIzNyAwLjY4LDkuODE5IDIuMTM3LDEwLjQwOSBDMi4zNzYsMTAuNTA1IDIuNTksMTAuNDEyIDIuNjYsMTAuMTUgQzIuNzA4LDkuOTY5IDIuODIyLDkuNTExIDIuODczLDkuMzIgQzIuOTQzLDkuMDYxIDIuOTE2LDguOTcgMi43MjMsOC43NDQgQzIuMzAyLDguMjUzIDIuMDM0LDcuNjE3IDIuMDM0LDYuNzE2IEMyLjAzNCw0LjEwNCA0LjAwNywxLjc2NSA3LjE3MiwxLjc2NSBDOS45NzUsMS43NjUgMTEuNTE0LDMuNDYxIDExLjUxNCw1LjcyNiBDMTEuNTE0LDguNzA4IDEwLjE4MywxMS4xOCA4LjIwNiwxMS4xOCBDNy4xMTQsMTEuMTggNi4yOTcsMTAuMzI5IDYuNTU5LDkuMjMzIEM2Ljg3Miw3LjkyMiA3LjQ4LDYuNTA5IDcuNDgsNS41NjQgQzcuNDgsNC43MTcgNy4wMjIsNC4wMTEgNi4wNzIsNC4wMTEgQzQuOTU2LDQuMDExIDQuMDYsNS4xNTUgNC4wNiw2LjY4NyBDNC4wNiw3LjY2MyA0LjM5Myw4LjMyMyA0LjM5Myw4LjMyMyBDNC4zOTMsOC4zMjMgMy4yNTEsMTMuMTE3IDMuMDUxLDEzLjk1NyBDMi42NTIsMTUuNjI5IDIuOTkxLDE3LjY3OSAzLjAxOSwxNy44ODYgQzMuMDM2LDE4LjAwOSAzLjE5NSwxOC4wMzggMy4yNjcsMTcuOTQ2IEMzLjM3LDE3LjgxMiA0LjcsMTYuMTg3IDUuMTUxLDE0LjU2MiBDNS4yNzksMTQuMTAyIDUuODg1LDExLjcyIDUuODg1LDExLjcyIEM2LjI0OCwxMi40MDYgNy4zMDgsMTMuMDA5IDguNDM1LDEzLjAwOSBDMTEuNzksMTMuMDA5IDE0LjA2Niw5Ljk3OSAxNC4wNjYsNS45MjMgQzE0LjA2NiwyLjg1NyAxMS40NDQsMCA3LjQ1OCwwIFoiIGZpbGw9IiNmZmYiPjwvcGF0aD48L2c+PC9zdmc+);
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_ja .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_repin.PIN_1490762817099_save { 
+  background: #bd081c url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 5px 50% no-repeat;
+  background-size: 16px 16px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_medium { 
+  min-width: 237px;
+  max-width: 345px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large { 
+  min-width: 345px;
+  max-width: 600px;
+  padding: 30px 34px 10px;
+  font-size: 14px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd { 
+  border-bottom: none;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_hd { 
+  padding-top: 50px;
+  border-bottom: none;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_img,  .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_container .PIN_1490762817099_video { 
+  border-radius: 8px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_hd .PIN_1490762817099_repin { 
+  top: 0px;
+  left: 0px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_source { 
+  height: 50px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_source .PIN_1490762817099_domain { 
+  line-height: 50px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_stats { 
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_description { 
+  font-size: 16px;
+  line-height: 20px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_menu { 
+  height: inherit;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_bd .PIN_1490762817099_menu .PIN_1490762817099_dropdown { 
+  top: 50px;
+  font-size: 14px;
+  padding: 10px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_ft { 
+  height: 60px;
+  font-size: 16px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_ft .PIN_1490762817099_board,  .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_ft .PIN_1490762817099_pinner { 
+  left: 60px;
+}
+ .PIN_1490762817099_embed_pin.PIN_1490762817099_large .PIN_1490762817099_ft .PIN_1490762817099_img { 
+  height: 40px;
+  width: 40px;
+  background-size: 40px 40px;
+  border-radius: 20px;
+}
+ .PIN_1490762817099_button_follow { 
+  display: inline-block;
+  color: #363636;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 1px #888;
+  border-radius: 3px;
+  font: 11px "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  -moz-font-smoothing: antialiased;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 4px 0 20px;
+  background-color: #efefef;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+ .PIN_1490762817099_button_follow:hover { 
+  box-shadow: inset 0 0 1px #000;
+}
+ .PIN_1490762817099_button_follow::after { 
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  top: 3px;
+  left: 3px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 0 0 no-repeat;
+  background-size: 14px 14px;
+}
+ .PIN_1490762817099_button_follow.PIN_1490762817099_tall { 
+  height: 26px;
+  line-height: 26px;
+  font-size: 13px;
+  padding: 0 6px 0 25px;
+  border-radius: 3px;
+}
+ .PIN_1490762817099_button_follow.PIN_1490762817099_tall::after { 
+  height: 18px;
+  width: 18px;
+  top: 4px;
+  left: 4px;
+  background-size: 18px 18px;
+}
+ .PIN_1490762817099_button_pin { 
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 1px #888;
+  border-radius: 3px;
+  height: 20px;
+  width: 40px;
+  -moz-font-smoothing: antialiased;
+  background: #efefef url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgd2lkdGg9IjQycHgiIHZpZXdCb3g9IjAgMCA0MiAxOCI+PGc+PHBhdGggZD0iTTE2Ljg1Myw2LjM0NSBDMTcuNjMyLDYuMzQ1IDE4LjM4LDUuNzAyIDE4LjUxLDQuOTA5IEMxOC42NjQsNC4xMzggMTguMTM1LDMuNDk0IDE3LjM1NywzLjQ5NCBDMTYuNTc4LDMuNDk0IDE1LjgzLDQuMTM4IDE1LjY5OCw0LjkwOSBDMTUuNTQ2LDUuNzAyIDE2LjA1Myw2LjM0NSAxNi44NTMsNi4zNDUgWiBNNy40NTgsMCBDMi41LDAgMCwzLjUyMiAwLDYuNDU5IEMwLDguMjM3IDAuNjgsOS44MTkgMi4xMzcsMTAuNDA5IEMyLjM3NiwxMC41MDUgMi41OSwxMC40MTIgMi42NiwxMC4xNSBDMi43MDgsOS45NjkgMi44MjIsOS41MTEgMi44NzMsOS4zMiBDMi45NDMsOS4wNjEgMi45MTYsOC45NyAyLjcyMyw4Ljc0NCBDMi4zMDIsOC4yNTMgMi4wMzQsNy42MTcgMi4wMzQsNi43MTYgQzIuMDM0LDQuMTA0IDQuMDA3LDEuNzY1IDcuMTcyLDEuNzY1IEM5Ljk3NSwxLjc2NSAxMS41MTQsMy40NjEgMTEuNTE0LDUuNzI2IEMxMS41MTQsOC43MDggMTAuMTgzLDExLjE4IDguMjA2LDExLjE4IEM3LjExNCwxMS4xOCA2LjI5NywxMC4zMjkgNi41NTksOS4yMzMgQzYuODcyLDcuOTIyIDcuNDgsNi41MDkgNy40OCw1LjU2NCBDNy40OCw0LjcxNyA3LjAyMiw0LjAxMSA2LjA3Miw0LjAxMSBDNC45NTYsNC4wMTEgNC4wNiw1LjE1NSA0LjA2LDYuNjg3IEM0LjA2LDcuNjYzIDQuMzkzLDguMzIzIDQuMzkzLDguMzIzIEM0LjM5Myw4LjMyMyAzLjI1MSwxMy4xMTcgMy4wNTEsMTMuOTU3IEMyLjY1MiwxNS42MjkgMi45OTEsMTcuNjc5IDMuMDE5LDE3Ljg4NiBDMy4wMzYsMTguMDA5IDMuMTk1LDE4LjAzOCAzLjI2NywxNy45NDYgQzMuMzcsMTcuODEyIDQuNywxNi4xODcgNS4xNTEsMTQuNTYyIEM1LjI3OSwxNC4xMDIgNS44ODUsMTEuNzIgNS44ODUsMTEuNzIgQzYuMjQ4LDEyLjQwNiA3LjMwOCwxMy4wMDkgOC40MzUsMTMuMDA5IEMxMS43OSwxMy4wMDkgMTQuMDY2LDkuOTc5IDE0LjA2Niw1LjkyMyBDMTQuMDY2LDIuODU3IDExLjQ0NCwwIDcuNDU4LDAgWiBNMjYuODk2LDE0LjE4OSBDMjYuMzQ4LDE0LjE4OSAyNi4xMTcsMTMuOTE1IDI2LjExNywxMy4zMjggQzI2LjExNywxMi40MDQgMjcuMDM1LDEwLjA5MSAyNy4wMzUsOS4wNDEgQzI3LjAzNSw3LjYzOCAyNi4yNzYsNi44MjYgMjQuNzIsNi44MjYgQzIzLjczOSw2LjgyNiAyMi43MjIsNy40NTMgMjIuMjkxLDguMDAzIEMyMi4yOTEsOC4wMDMgMjIuNDIyLDcuNTUzIDIyLjQ2Nyw3LjM4IEMyMi41MTUsNy4xOTYgMjIuNDE1LDYuODg0IDIyLjE3Myw2Ljg4NCBMMjAuNjUxLDYuODg0IEMyMC4zMjgsNi44ODQgMjAuMjM4LDcuMDU1IDIwLjE5MSw3LjI0NCBDMjAuMTcyLDcuMzIgMTkuNjI0LDkuNTg0IDE5LjA5OCwxMS42MzIgQzE4LjczOCwxMy4wMzQgMTcuODYzLDE0LjIwNSAxNi45MjgsMTQuMjA1IEMxNi40NDcsMTQuMjA1IDE2LjIzMywxMy45MDYgMTYuMjMzLDEzLjM5OSBDMTYuMjMzLDEyLjk1OSAxNi41MTksMTEuODc3IDE2Ljg2LDEwLjUzNCBDMTcuMjc2LDguODk4IDE3LjY0Miw3LjU1MSAxNy42ODEsNy4zOTQgQzE3LjczMiw3LjE5MiAxNy42NDIsNy4wMTcgMTcuMzc5LDcuMDE3IEwxNS44NDksNy4wMTcgQzE1LjU3Miw3LjAxNyAxNS40NzMsNy4xNjEgMTUuNDE0LDcuMzYxIEMxNS40MTQsNy4zNjEgMTQuOTgzLDguOTc3IDE0LjUyNywxMC43NzUgQzE0LjE5NiwxMi4wNzkgMTMuODMsMTMuNDA5IDEzLjgzLDE0LjAzNCBDMTMuODMsMTUuMTQ4IDE0LjMzNiwxNS45NDQgMTUuNzI0LDE1Ljk0NCBDMTYuNzk2LDE1Ljk0NCAxNy42NDQsMTUuNDUgMTguMjkyLDE0Ljc2NCBDMTguMTk3LDE1LjEzNSAxOC4xMzYsMTUuNDE0IDE4LjEzLDE1LjQzOSBDMTguMDc0LDE1LjY1IDE4LjE0MiwxNS44MzggMTguMzk0LDE1LjgzOCBMMTkuOTYxLDE1LjgzOCBDMjAuMjMzLDE1LjgzOCAyMC4zMzcsMTUuNzMgMjAuMzk0LDE1LjQ5NCBDMjAuNDQ5LDE1LjI2OSAyMS42MTksMTAuNjY3IDIxLjYxOSwxMC42NjcgQzIxLjkyOCw5LjQ0MyAyMi42OTIsOC42MzIgMjMuNzY4LDguNjMyIEMyNC4yNzksOC42MzIgMjQuNzIsOC45NjcgMjQuNjY5LDkuNjE4IEMyNC42MTIsMTAuMzMzIDIzLjc0MSwxMi45MDMgMjMuNzQxLDE0LjAzMSBDMjMuNzQxLDE0Ljg4NCAyNC4wNiwxNS45NDUgMjUuNjgzLDE1Ljk0NSBDMjYuNzg5LDE1Ljk0NSAyNy42MDMsMTUuNDY0IDI4LjE5NSwxNC43ODYgTDI3LjQ4OSwxMy45NDEgQzI3LjMxMSwxNC4wOTQgMjcuMTE0LDE0LjE4OSAyNi44OTYsMTQuMTg5IFogTTQxLjcwMSw2Ljg3MyBMNDAuMTM0LDYuODczIEM0MC4xMzQsNi44NzMgNDAuODU2LDQuMTA5IDQwLjg3Myw0LjAzNSBDNDAuOTQyLDMuNzQ1IDQwLjY5OCwzLjU3OCA0MC40NDEsMy42MzEgQzQwLjQ0MSwzLjYzMSAzOS4yMywzLjg2NiAzOS4wMDUsMy45MTMgQzM4Ljc3OSwzLjk1OCAzOC42MDQsNC4wODEgMzguNTIyLDQuNDAzIEMzOC41MTIsNC40NDUgMzcuODgsNi44NzMgMzcuODgsNi44NzMgTDM2LjYyMiw2Ljg3MyBDMzYuMzg1LDYuODczIDM2LjI0NSw2Ljk2OCAzNi4xOTIsNy4xODggQzM2LjExNSw3LjUwNCAzNS45NzUsOC4xNDUgMzUuOTM2LDguMjk3IEMzNS44ODUsOC40OTQgMzYsOC42NDQgMzYuMjIyLDguNjQ0IEwzNy40NTcsOC42NDQgQzM3LjQ0OCw4LjY3NyAzNy4wNjQsMTAuMTI1IDM2LjcyNSwxMS41MjEgTDM2LjcyNCwxMS41MTYgQzM2LjcyLDExLjUzMiAzNi43MTYsMTEuNTQ2IDM2LjcxMiwxMS41NjIgTDM2LjcxMiwxMS41NTYgQzM2LjcxMiwxMS41NTYgMzYuNzA4LDExLjU3MSAzNi43MDIsMTEuNTk4IEMzNi4zMjQsMTIuOTY4IDM1LjExOCwxNC4yMDkgMzQuMjAxLDE0LjIwOSBDMzMuNzIxLDE0LjIwOSAzMy41MDYsMTMuOTA5IDMzLjUwNiwxMy40MDIgQzMzLjUwNiwxMi45NjMgMzMuNzkyLDExLjg4IDM0LjEzNCwxMC41MzcgQzM0LjU0OSw4LjkwMSAzNC45MTUsNy41NTUgMzQuOTU1LDcuMzk3IEMzNS4wMDYsNy4xOTYgMzQuOTE1LDcuMDIgMzQuNjUyLDcuMDIgTDMzLjEyMiw3LjAyIEMzMi44NDUsNy4wMiAzMi43NDYsNy4xNjQgMzIuNjg3LDcuMzY0IEMzMi42ODcsNy4zNjQgMzIuMjU3LDguOTggMzEuOCwxMC43NzggQzMxLjQ2OSwxMi4wODMgMzEuMTAzLDEzLjQxMiAzMS4xMDMsMTQuMDM3IEMzMS4xMDMsMTUuMTUxIDMxLjYwOSwxNS45NDggMzIuOTk3LDE1Ljk0OCBDMzQuMDcsMTUuOTQ4IDM1LjEzNiwxNS40NTMgMzUuNzgzLDE0Ljc2NyBDMzUuNzgzLDE0Ljc2NyAzNi4wMTEsMTQuNTIxIDM2LjIzLDE0LjIyOSBDMzYuMjQxLDE0LjU4MSAzNi4zMjQsMTQuODM3IDM2LjQxMSwxNS4wMTggQzM2LjQ1OCwxNS4xMTkgMzYuNTE1LDE1LjIxNSAzNi41ODEsMTUuMzAzIEMzNi41ODIsMTUuMzA0IDM2LjU4MywxNS4zMDYgMzYuNTg1LDE1LjMwOCBMMzYuNTg1LDE1LjMwOCBDMzYuODkxLDE1LjcxMyAzNy4zOTgsMTUuOTYyIDM4LjE1MSwxNS45NjIgQzM5Ljg5NCwxNS45NjIgNDAuOTQ0LDE0LjkzOCA0MS41NjIsMTMuOTA5IEw0MC43MDQsMTMuMjM5IEM0MC4zMzMsMTMuNzc0IDM5LjgzOSwxNC4xNzUgMzkuMzI0LDE0LjE3NSBDMzguODQ2LDE0LjE3NSAzOC41NzksMTMuODc4IDM4LjU3OSwxMy4zNzIgQzM4LjU3OSwxMi45MzUgMzguODg5LDExLjg2OCAzOS4yMjksMTAuNTMgQzM5LjM0NCwxMC4wODMgMzkuNTE2LDkuNDAxIDM5LjcwOCw4LjY0NCBMNDEuMzAyLDguNjQ0IEM0MS41MzksOC42NDQgNDEuNjc4LDguNTQ5IDQxLjczMiw4LjMyOSBDNDEuODA4LDguMDEyIDQxLjk0OCw3LjM3MiA0MS45ODgsNy4yMjEgQzQyLjAzOSw3LjAyMyA0MS45MjMsNi44NzMgNDEuNzAxLDYuODczIFogTTM0LjEyNiw2LjM0OCBDMzQuOTA1LDYuMzQ4IDM1LjY1Myw1LjcwNiAzNS43ODMsNC45MTIgQzM1LjkzNyw0LjE0MSAzNS40MDksMy40OTggMzQuNjMsMy40OTggQzMzLjg1MSwzLjQ5OCAzMy4xMDMsNC4xNDEgMzIuOTcxLDQuOTEyIEMzMi44MTksNS43MDYgMzMuMzI2LDYuMzQ4IDM0LjEyNiw2LjM0OCBaIiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 50% 50% no-repeat;
+  background-size: 75%;
+  position: relative;
+  font: 12px "Helvetica Neue", Helvetica, arial, sans-serif;
+  color: #555;
+  text-align: center;
+  vertical-align: baseline;
+}
+ .PIN_1490762817099_button_pin:hover { 
+  box-shadow: inset 0 0 1px #000;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_above .PIN_1490762817099_count { 
+  position: absolute;
+  top: -28px;
+  left: 0;
+  height: 28px;
+  width: inherit;
+  line-height: 24px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNzZweCIgd2lkdGg9IjExNHB4IiB2aWV3Qm94PSIwIDAgMTE0IDc2Ij48Zz48cGF0aCBkPSJNOSAxQzQuNiAxIDEgNC42IDEgOXY0M2MwIDQuMyAzLjYgOCA4IDhoMjZsMTggMTVoNy41bDE2LTE1SDEwNWM0LjQgMCA4LTMuNyA4LThWOWMwLTQuNC0zLjYtOC04LThIOXoiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2I1YjViNSIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+PC9nPjwvc3ZnPg==) 0 0 no-repeat;
+  background-size: 40px 28px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_above.PIN_1490762817099_padded { 
+  margin-top: 28px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_beside .PIN_1490762817099_count { 
+  position: absolute;
+  right: -45px;
+  text-align: center;
+  text-indent: 5px;
+  height: inherit;
+  width: 45px;
+  font-size: 11px;
+  line-height: 20px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNTZweCIgd2lkdGg9IjEyNnB4IiB2aWV3Qm94PSIyIDAgMTMwIDYwIj48Zz48cGF0aCBkPSJNMTE5LjYgMmM0LjUgMCA4IDMuNiA4IDh2NDBjMCA0LjQtMy41IDgtOCA4SDIzLjNMMS42IDMyLjR2LTQuNkwyMy4zIDJoOTYuM3oiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2I1YjViNSIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+PC9nPjwvc3ZnPg==);
+  background-size: cover;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_beside.PIN_1490762817099_padded { 
+  margin-right: 45px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_ja { 
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgd2lkdGg9IjQxcHgiIHZpZXdCb3g9IjAgMCA0MSAxOCI+PGc+PHBhdGggZD0iTTE5LjgyMiw3LjE3MyBDMTkuODIyLDYuNTEgMTkuODM1LDYuMjc2IDE5Ljg4Nyw1Ljk2NCBMMTguMTQ1LDUuOTY0IEMxOC4xOTcsNi4yODkgMTguMTk3LDYuNDk3IDE4LjE5Nyw3LjE2IEwxOC4yMSwxMy4xOTIgQzE4LjIxLDEzLjk0NiAxOC4yMjMsMTQuMTY3IDE4LjI0OSwxNC4zODggQzE4LjMyNywxNS4wMjUgMTguNTIyLDE1LjQ0MSAxOC44ODYsMTUuNzE0IEMxOS4zOTMsMTYuMTA0IDIwLjI5LDE2LjI3MyAyMS45MjgsMTYuMjczIEMyMi43MjEsMTYuMjczIDI0LjM1OSwxNi4xOTUgMjUuMTI2LDE2LjExNyBDMjYuNTA0LDE1Ljk4NyAyNi41NjksMTUuOTc0IDI2Ljg0MiwxNS45NzQgTDI2Ljc2NCwxNC4yNDUgQzI2LjE5MiwxNC40MTQgMjUuOTA2LDE0LjQ3OSAyNS4yODIsMTQuNTU3IEMyNC4zMzMsMTQuNjg3IDIzLjEzNywxNC43NjUgMjIuMjY2LDE0Ljc2NSBDMjEuMDA1LDE0Ljc2NSAyMC4yNjQsMTQuNjQ4IDIwLjA0MywxNC40MjcgQzE5Ljg2MSwxNC4yNDUgMTkuODA5LDEzLjk1OSAxOS44MDksMTMuMjMxIEMxOS44MDksMTMuMTc5IDE5LjgwOSwxMy4xMDEgMTkuODIyLDEzLjAyMyBMMTkuODIyLDExLjMwNyBDMjEuOTkzLDEwLjkwNCAyNC4wMDgsMTAuMjI4IDI1LjkzMiw5LjI0IEwyNi4yNyw5LjA3MSBDMjYuMzc0LDkuMDE5IDI2LjQsOS4wMDYgMjYuNTQzLDguOTU0IEwyNS41MDMsNy40ODUgQzI0LjY1OCw4LjI3OCAyMS43ODUsOS40MzUgMTkuODIyLDkuNzk5IEwxOS44MjIsNy4xNzMgWiBNMjcuMzEsNC44NzIgQzI2LjQ5MSw0Ljg3MiAyNS44MTUsNS41NDggMjUuODE1LDYuMzY3IEMyNS44MTUsNy4xOTkgMjYuNDkxLDcuODc1IDI3LjMxLDcuODc1IEMyOC4xNDIsNy44NzUgMjguODE4LDcuMTk5IDI4LjgxOCw2LjM2NyBDMjguODE4LDUuNTQ4IDI4LjE0Miw0Ljg3MiAyNy4zMSw0Ljg3MiBMMjcuMzEsNC44NzIgWiBNMjcuMzEsNS41MjIgQzI3Ljc5MSw1LjUyMiAyOC4xNjgsNS44OTkgMjguMTY4LDYuMzY3IEMyOC4xNjgsNi44MzUgMjcuNzkxLDcuMjI1IDI3LjMxLDcuMjI1IEMyNi44NDIsNy4yMjUgMjYuNDY1LDYuODM1IDI2LjQ2NSw2LjM2NyBDMjYuNDY1LDUuODk5IDI2Ljg0Miw1LjUyMiAyNy4zMSw1LjUyMiBMMjcuMzEsNS41MjIgWiBNMzAuNTg2LDcuNjU0IEMzMS43OTUsOC4zMyAzMi44NjEsOS4xODggMzMuOTAxLDEwLjI5MyBMMzUuMDE5LDguODc2IEMzNC4wMTgsNy45MjcgMzMuMjEyLDcuMzI5IDMxLjY2NSw2LjM2NyBMMzAuNTg2LDcuNjU0IFogTTMxLjA0MSwxNi4yMzQgQzMxLjM0LDE2LjEzIDMxLjM3OSwxNi4xMTcgMzEuODk5LDE2LjAxMyBDMzMuOTE0LDE1LjU4NCAzNS41MjYsMTQuOTQ3IDM2Ljg1MiwxNC4wNjMgQzM4LjYzMywxMi44OCAzOS44NjgsMTEuMzQ2IDQwLjk3Myw4Ljk2NyBDNDAuMzEsOC40OTkgNDAuMTAyLDguMzA0IDM5LjU5NSw3LjY5MyBDMzkuMjA1LDguNzQ2IDM4Ljg0MSw5LjQ2MSAzOC4yNjksMTAuMjkzIEMzNy4yNDIsMTEuNzc1IDM2LjAzMywxMi43NzYgMzQuNDA4LDEzLjQ3OCBDMzMuMjI1LDEzLjk5OCAzMS42NzgsMTQuMzc1IDMwLjU2LDE0LjQ0IEwzMS4wNDEsMTYuMjM0IFogTTcuNDU4LDAgQzIuNSwwIDAsMy41MjIgMCw2LjQ1OSBDMCw4LjIzNyAwLjY4LDkuODE5IDIuMTM3LDEwLjQwOSBDMi4zNzYsMTAuNTA1IDIuNTksMTAuNDEyIDIuNjYsMTAuMTUgQzIuNzA4LDkuOTY5IDIuODIyLDkuNTExIDIuODczLDkuMzIgQzIuOTQzLDkuMDYxIDIuOTE2LDguOTcgMi43MjMsOC43NDQgQzIuMzAyLDguMjUzIDIuMDM0LDcuNjE3IDIuMDM0LDYuNzE2IEMyLjAzNCw0LjEwNCA0LjAwNywxLjc2NSA3LjE3MiwxLjc2NSBDOS45NzUsMS43NjUgMTEuNTE0LDMuNDYxIDExLjUxNCw1LjcyNiBDMTEuNTE0LDguNzA4IDEwLjE4MywxMS4xOCA4LjIwNiwxMS4xOCBDNy4xMTQsMTEuMTggNi4yOTcsMTAuMzI5IDYuNTU5LDkuMjMzIEM2Ljg3Miw3LjkyMiA3LjQ4LDYuNTA5IDcuNDgsNS41NjQgQzcuNDgsNC43MTcgNy4wMjIsNC4wMTEgNi4wNzIsNC4wMTEgQzQuOTU2LDQuMDExIDQuMDYsNS4xNTUgNC4wNiw2LjY4NyBDNC4wNiw3LjY2MyA0LjM5Myw4LjMyMyA0LjM5Myw4LjMyMyBDNC4zOTMsOC4zMjMgMy4yNTEsMTMuMTE3IDMuMDUxLDEzLjk1NyBDMi42NTIsMTUuNjI5IDIuOTkxLDE3LjY3OSAzLjAxOSwxNy44ODYgQzMuMDM2LDE4LjAwOSAzLjE5NSwxOC4wMzggMy4yNjcsMTcuOTQ2IEMzLjM3LDE3LjgxMiA0LjcsMTYuMTg3IDUuMTUxLDE0LjU2MiBDNS4yNzksMTQuMTAyIDUuODg1LDExLjcyIDUuODg1LDExLjcyIEM2LjI0OCwxMi40MDYgNy4zMDgsMTMuMDA5IDguNDM1LDEzLjAwOSBDMTEuNzksMTMuMDA5IDE0LjA2Niw5Ljk3OSAxNC4wNjYsNS45MjMgQzE0LjA2NiwyLjg1NyAxMS40NDQsMCA3LjQ1OCwwIFoiIGZpbGw9IiNiZDA4MWMiPjwvcGF0aD48L2c+PC9zdmc+);
+  background-size: 72%;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_red { 
+  background-color: #bd081c;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgd2lkdGg9IjQycHgiIHZpZXdCb3g9IjAgMCA0MiAxOCI+PGc+PHBhdGggZD0iTTE2Ljg1Myw2LjM0NSBDMTcuNjMyLDYuMzQ1IDE4LjM4LDUuNzAyIDE4LjUxLDQuOTA5IEMxOC42NjQsNC4xMzggMTguMTM1LDMuNDk0IDE3LjM1NywzLjQ5NCBDMTYuNTc4LDMuNDk0IDE1LjgzLDQuMTM4IDE1LjY5OCw0LjkwOSBDMTUuNTQ2LDUuNzAyIDE2LjA1Myw2LjM0NSAxNi44NTMsNi4zNDUgWiBNNy40NTgsMCBDMi41LDAgMCwzLjUyMiAwLDYuNDU5IEMwLDguMjM3IDAuNjgsOS44MTkgMi4xMzcsMTAuNDA5IEMyLjM3NiwxMC41MDUgMi41OSwxMC40MTIgMi42NiwxMC4xNSBDMi43MDgsOS45NjkgMi44MjIsOS41MTEgMi44NzMsOS4zMiBDMi45NDMsOS4wNjEgMi45MTYsOC45NyAyLjcyMyw4Ljc0NCBDMi4zMDIsOC4yNTMgMi4wMzQsNy42MTcgMi4wMzQsNi43MTYgQzIuMDM0LDQuMTA0IDQuMDA3LDEuNzY1IDcuMTcyLDEuNzY1IEM5Ljk3NSwxLjc2NSAxMS41MTQsMy40NjEgMTEuNTE0LDUuNzI2IEMxMS41MTQsOC43MDggMTAuMTgzLDExLjE4IDguMjA2LDExLjE4IEM3LjExNCwxMS4xOCA2LjI5NywxMC4zMjkgNi41NTksOS4yMzMgQzYuODcyLDcuOTIyIDcuNDgsNi41MDkgNy40OCw1LjU2NCBDNy40OCw0LjcxNyA3LjAyMiw0LjAxMSA2LjA3Miw0LjAxMSBDNC45NTYsNC4wMTEgNC4wNiw1LjE1NSA0LjA2LDYuNjg3IEM0LjA2LDcuNjYzIDQuMzkzLDguMzIzIDQuMzkzLDguMzIzIEM0LjM5Myw4LjMyMyAzLjI1MSwxMy4xMTcgMy4wNTEsMTMuOTU3IEMyLjY1MiwxNS42MjkgMi45OTEsMTcuNjc5IDMuMDE5LDE3Ljg4NiBDMy4wMzYsMTguMDA5IDMuMTk1LDE4LjAzOCAzLjI2NywxNy45NDYgQzMuMzcsMTcuODEyIDQuNywxNi4xODcgNS4xNTEsMTQuNTYyIEM1LjI3OSwxNC4xMDIgNS44ODUsMTEuNzIgNS44ODUsMTEuNzIgQzYuMjQ4LDEyLjQwNiA3LjMwOCwxMy4wMDkgOC40MzUsMTMuMDA5IEMxMS43OSwxMy4wMDkgMTQuMDY2LDkuOTc5IDE0LjA2Niw1LjkyMyBDMTQuMDY2LDIuODU3IDExLjQ0NCwwIDcuNDU4LDAgWiBNMjYuODk2LDE0LjE4OSBDMjYuMzQ4LDE0LjE4OSAyNi4xMTcsMTMuOTE1IDI2LjExNywxMy4zMjggQzI2LjExNywxMi40MDQgMjcuMDM1LDEwLjA5MSAyNy4wMzUsOS4wNDEgQzI3LjAzNSw3LjYzOCAyNi4yNzYsNi44MjYgMjQuNzIsNi44MjYgQzIzLjczOSw2LjgyNiAyMi43MjIsNy40NTMgMjIuMjkxLDguMDAzIEMyMi4yOTEsOC4wMDMgMjIuNDIyLDcuNTUzIDIyLjQ2Nyw3LjM4IEMyMi41MTUsNy4xOTYgMjIuNDE1LDYuODg0IDIyLjE3Myw2Ljg4NCBMMjAuNjUxLDYuODg0IEMyMC4zMjgsNi44ODQgMjAuMjM4LDcuMDU1IDIwLjE5MSw3LjI0NCBDMjAuMTcyLDcuMzIgMTkuNjI0LDkuNTg0IDE5LjA5OCwxMS42MzIgQzE4LjczOCwxMy4wMzQgMTcuODYzLDE0LjIwNSAxNi45MjgsMTQuMjA1IEMxNi40NDcsMTQuMjA1IDE2LjIzMywxMy45MDYgMTYuMjMzLDEzLjM5OSBDMTYuMjMzLDEyLjk1OSAxNi41MTksMTEuODc3IDE2Ljg2LDEwLjUzNCBDMTcuMjc2LDguODk4IDE3LjY0Miw3LjU1MSAxNy42ODEsNy4zOTQgQzE3LjczMiw3LjE5MiAxNy42NDIsNy4wMTcgMTcuMzc5LDcuMDE3IEwxNS44NDksNy4wMTcgQzE1LjU3Miw3LjAxNyAxNS40NzMsNy4xNjEgMTUuNDE0LDcuMzYxIEMxNS40MTQsNy4zNjEgMTQuOTgzLDguOTc3IDE0LjUyNywxMC43NzUgQzE0LjE5NiwxMi4wNzkgMTMuODMsMTMuNDA5IDEzLjgzLDE0LjAzNCBDMTMuODMsMTUuMTQ4IDE0LjMzNiwxNS45NDQgMTUuNzI0LDE1Ljk0NCBDMTYuNzk2LDE1Ljk0NCAxNy42NDQsMTUuNDUgMTguMjkyLDE0Ljc2NCBDMTguMTk3LDE1LjEzNSAxOC4xMzYsMTUuNDE0IDE4LjEzLDE1LjQzOSBDMTguMDc0LDE1LjY1IDE4LjE0MiwxNS44MzggMTguMzk0LDE1LjgzOCBMMTkuOTYxLDE1LjgzOCBDMjAuMjMzLDE1LjgzOCAyMC4zMzcsMTUuNzMgMjAuMzk0LDE1LjQ5NCBDMjAuNDQ5LDE1LjI2OSAyMS42MTksMTAuNjY3IDIxLjYxOSwxMC42NjcgQzIxLjkyOCw5LjQ0MyAyMi42OTIsOC42MzIgMjMuNzY4LDguNjMyIEMyNC4yNzksOC42MzIgMjQuNzIsOC45NjcgMjQuNjY5LDkuNjE4IEMyNC42MTIsMTAuMzMzIDIzLjc0MSwxMi45MDMgMjMuNzQxLDE0LjAzMSBDMjMuNzQxLDE0Ljg4NCAyNC4wNiwxNS45NDUgMjUuNjgzLDE1Ljk0NSBDMjYuNzg5LDE1Ljk0NSAyNy42MDMsMTUuNDY0IDI4LjE5NSwxNC43ODYgTDI3LjQ4OSwxMy45NDEgQzI3LjMxMSwxNC4wOTQgMjcuMTE0LDE0LjE4OSAyNi44OTYsMTQuMTg5IFogTTQxLjcwMSw2Ljg3MyBMNDAuMTM0LDYuODczIEM0MC4xMzQsNi44NzMgNDAuODU2LDQuMTA5IDQwLjg3Myw0LjAzNSBDNDAuOTQyLDMuNzQ1IDQwLjY5OCwzLjU3OCA0MC40NDEsMy42MzEgQzQwLjQ0MSwzLjYzMSAzOS4yMywzLjg2NiAzOS4wMDUsMy45MTMgQzM4Ljc3OSwzLjk1OCAzOC42MDQsNC4wODEgMzguNTIyLDQuNDAzIEMzOC41MTIsNC40NDUgMzcuODgsNi44NzMgMzcuODgsNi44NzMgTDM2LjYyMiw2Ljg3MyBDMzYuMzg1LDYuODczIDM2LjI0NSw2Ljk2OCAzNi4xOTIsNy4xODggQzM2LjExNSw3LjUwNCAzNS45NzUsOC4xNDUgMzUuOTM2LDguMjk3IEMzNS44ODUsOC40OTQgMzYsOC42NDQgMzYuMjIyLDguNjQ0IEwzNy40NTcsOC42NDQgQzM3LjQ0OCw4LjY3NyAzNy4wNjQsMTAuMTI1IDM2LjcyNSwxMS41MjEgTDM2LjcyNCwxMS41MTYgQzM2LjcyLDExLjUzMiAzNi43MTYsMTEuNTQ2IDM2LjcxMiwxMS41NjIgTDM2LjcxMiwxMS41NTYgQzM2LjcxMiwxMS41NTYgMzYuNzA4LDExLjU3MSAzNi43MDIsMTEuNTk4IEMzNi4zMjQsMTIuOTY4IDM1LjExOCwxNC4yMDkgMzQuMjAxLDE0LjIwOSBDMzMuNzIxLDE0LjIwOSAzMy41MDYsMTMuOTA5IDMzLjUwNiwxMy40MDIgQzMzLjUwNiwxMi45NjMgMzMuNzkyLDExLjg4IDM0LjEzNCwxMC41MzcgQzM0LjU0OSw4LjkwMSAzNC45MTUsNy41NTUgMzQuOTU1LDcuMzk3IEMzNS4wMDYsNy4xOTYgMzQuOTE1LDcuMDIgMzQuNjUyLDcuMDIgTDMzLjEyMiw3LjAyIEMzMi44NDUsNy4wMiAzMi43NDYsNy4xNjQgMzIuNjg3LDcuMzY0IEMzMi42ODcsNy4zNjQgMzIuMjU3LDguOTggMzEuOCwxMC43NzggQzMxLjQ2OSwxMi4wODMgMzEuMTAzLDEzLjQxMiAzMS4xMDMsMTQuMDM3IEMzMS4xMDMsMTUuMTUxIDMxLjYwOSwxNS45NDggMzIuOTk3LDE1Ljk0OCBDMzQuMDcsMTUuOTQ4IDM1LjEzNiwxNS40NTMgMzUuNzgzLDE0Ljc2NyBDMzUuNzgzLDE0Ljc2NyAzNi4wMTEsMTQuNTIxIDM2LjIzLDE0LjIyOSBDMzYuMjQxLDE0LjU4MSAzNi4zMjQsMTQuODM3IDM2LjQxMSwxNS4wMTggQzM2LjQ1OCwxNS4xMTkgMzYuNTE1LDE1LjIxNSAzNi41ODEsMTUuMzAzIEMzNi41ODIsMTUuMzA0IDM2LjU4MywxNS4zMDYgMzYuNTg1LDE1LjMwOCBMMzYuNTg1LDE1LjMwOCBDMzYuODkxLDE1LjcxMyAzNy4zOTgsMTUuOTYyIDM4LjE1MSwxNS45NjIgQzM5Ljg5NCwxNS45NjIgNDAuOTQ0LDE0LjkzOCA0MS41NjIsMTMuOTA5IEw0MC43MDQsMTMuMjM5IEM0MC4zMzMsMTMuNzc0IDM5LjgzOSwxNC4xNzUgMzkuMzI0LDE0LjE3NSBDMzguODQ2LDE0LjE3NSAzOC41NzksMTMuODc4IDM4LjU3OSwxMy4zNzIgQzM4LjU3OSwxMi45MzUgMzguODg5LDExLjg2OCAzOS4yMjksMTAuNTMgQzM5LjM0NCwxMC4wODMgMzkuNTE2LDkuNDAxIDM5LjcwOCw4LjY0NCBMNDEuMzAyLDguNjQ0IEM0MS41MzksOC42NDQgNDEuNjc4LDguNTQ5IDQxLjczMiw4LjMyOSBDNDEuODA4LDguMDEyIDQxLjk0OCw3LjM3MiA0MS45ODgsNy4yMjEgQzQyLjAzOSw3LjAyMyA0MS45MjMsNi44NzMgNDEuNzAxLDYuODczIFogTTM0LjEyNiw2LjM0OCBDMzQuOTA1LDYuMzQ4IDM1LjY1Myw1LjcwNiAzNS43ODMsNC45MTIgQzM1LjkzNyw0LjE0MSAzNS40MDksMy40OTggMzQuNjMsMy40OTggQzMzLjg1MSwzLjQ5OCAzMy4xMDMsNC4xNDEgMzIuOTcxLDQuOTEyIEMzMi44MTksNS43MDYgMzMuMzI2LDYuMzQ4IDM0LjEyNiw2LjM0OCBaIiBmaWxsPSIjZmZmIj48L3BhdGg+PC9nPjwvc3ZnPg==);
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_red.PIN_1490762817099_ja { 
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMThweCIgd2lkdGg9IjQxcHgiIHZpZXdCb3g9IjAgMCA0MSAxOCI+PGc+PHBhdGggZD0iTTE5LjgyMiw3LjE3MyBDMTkuODIyLDYuNTEgMTkuODM1LDYuMjc2IDE5Ljg4Nyw1Ljk2NCBMMTguMTQ1LDUuOTY0IEMxOC4xOTcsNi4yODkgMTguMTk3LDYuNDk3IDE4LjE5Nyw3LjE2IEwxOC4yMSwxMy4xOTIgQzE4LjIxLDEzLjk0NiAxOC4yMjMsMTQuMTY3IDE4LjI0OSwxNC4zODggQzE4LjMyNywxNS4wMjUgMTguNTIyLDE1LjQ0MSAxOC44ODYsMTUuNzE0IEMxOS4zOTMsMTYuMTA0IDIwLjI5LDE2LjI3MyAyMS45MjgsMTYuMjczIEMyMi43MjEsMTYuMjczIDI0LjM1OSwxNi4xOTUgMjUuMTI2LDE2LjExNyBDMjYuNTA0LDE1Ljk4NyAyNi41NjksMTUuOTc0IDI2Ljg0MiwxNS45NzQgTDI2Ljc2NCwxNC4yNDUgQzI2LjE5MiwxNC40MTQgMjUuOTA2LDE0LjQ3OSAyNS4yODIsMTQuNTU3IEMyNC4zMzMsMTQuNjg3IDIzLjEzNywxNC43NjUgMjIuMjY2LDE0Ljc2NSBDMjEuMDA1LDE0Ljc2NSAyMC4yNjQsMTQuNjQ4IDIwLjA0MywxNC40MjcgQzE5Ljg2MSwxNC4yNDUgMTkuODA5LDEzLjk1OSAxOS44MDksMTMuMjMxIEMxOS44MDksMTMuMTc5IDE5LjgwOSwxMy4xMDEgMTkuODIyLDEzLjAyMyBMMTkuODIyLDExLjMwNyBDMjEuOTkzLDEwLjkwNCAyNC4wMDgsMTAuMjI4IDI1LjkzMiw5LjI0IEwyNi4yNyw5LjA3MSBDMjYuMzc0LDkuMDE5IDI2LjQsOS4wMDYgMjYuNTQzLDguOTU0IEwyNS41MDMsNy40ODUgQzI0LjY1OCw4LjI3OCAyMS43ODUsOS40MzUgMTkuODIyLDkuNzk5IEwxOS44MjIsNy4xNzMgWiBNMjcuMzEsNC44NzIgQzI2LjQ5MSw0Ljg3MiAyNS44MTUsNS41NDggMjUuODE1LDYuMzY3IEMyNS44MTUsNy4xOTkgMjYuNDkxLDcuODc1IDI3LjMxLDcuODc1IEMyOC4xNDIsNy44NzUgMjguODE4LDcuMTk5IDI4LjgxOCw2LjM2NyBDMjguODE4LDUuNTQ4IDI4LjE0Miw0Ljg3MiAyNy4zMSw0Ljg3MiBMMjcuMzEsNC44NzIgWiBNMjcuMzEsNS41MjIgQzI3Ljc5MSw1LjUyMiAyOC4xNjgsNS44OTkgMjguMTY4LDYuMzY3IEMyOC4xNjgsNi44MzUgMjcuNzkxLDcuMjI1IDI3LjMxLDcuMjI1IEMyNi44NDIsNy4yMjUgMjYuNDY1LDYuODM1IDI2LjQ2NSw2LjM2NyBDMjYuNDY1LDUuODk5IDI2Ljg0Miw1LjUyMiAyNy4zMSw1LjUyMiBMMjcuMzEsNS41MjIgWiBNMzAuNTg2LDcuNjU0IEMzMS43OTUsOC4zMyAzMi44NjEsOS4xODggMzMuOTAxLDEwLjI5MyBMMzUuMDE5LDguODc2IEMzNC4wMTgsNy45MjcgMzMuMjEyLDcuMzI5IDMxLjY2NSw2LjM2NyBMMzAuNTg2LDcuNjU0IFogTTMxLjA0MSwxNi4yMzQgQzMxLjM0LDE2LjEzIDMxLjM3OSwxNi4xMTcgMzEuODk5LDE2LjAxMyBDMzMuOTE0LDE1LjU4NCAzNS41MjYsMTQuOTQ3IDM2Ljg1MiwxNC4wNjMgQzM4LjYzMywxMi44OCAzOS44NjgsMTEuMzQ2IDQwLjk3Myw4Ljk2NyBDNDAuMzEsOC40OTkgNDAuMTAyLDguMzA0IDM5LjU5NSw3LjY5MyBDMzkuMjA1LDguNzQ2IDM4Ljg0MSw5LjQ2MSAzOC4yNjksMTAuMjkzIEMzNy4yNDIsMTEuNzc1IDM2LjAzMywxMi43NzYgMzQuNDA4LDEzLjQ3OCBDMzMuMjI1LDEzLjk5OCAzMS42NzgsMTQuMzc1IDMwLjU2LDE0LjQ0IEwzMS4wNDEsMTYuMjM0IFogTTcuNDU4LDAgQzIuNSwwIDAsMy41MjIgMCw2LjQ1OSBDMCw4LjIzNyAwLjY4LDkuODE5IDIuMTM3LDEwLjQwOSBDMi4zNzYsMTAuNTA1IDIuNTksMTAuNDEyIDIuNjYsMTAuMTUgQzIuNzA4LDkuOTY5IDIuODIyLDkuNTExIDIuODczLDkuMzIgQzIuOTQzLDkuMDYxIDIuOTE2LDguOTcgMi43MjMsOC43NDQgQzIuMzAyLDguMjUzIDIuMDM0LDcuNjE3IDIuMDM0LDYuNzE2IEMyLjAzNCw0LjEwNCA0LjAwNywxLjc2NSA3LjE3MiwxLjc2NSBDOS45NzUsMS43NjUgMTEuNTE0LDMuNDYxIDExLjUxNCw1LjcyNiBDMTEuNTE0LDguNzA4IDEwLjE4MywxMS4xOCA4LjIwNiwxMS4xOCBDNy4xMTQsMTEuMTggNi4yOTcsMTAuMzI5IDYuNTU5LDkuMjMzIEM2Ljg3Miw3LjkyMiA3LjQ4LDYuNTA5IDcuNDgsNS41NjQgQzcuNDgsNC43MTcgNy4wMjIsNC4wMTEgNi4wNzIsNC4wMTEgQzQuOTU2LDQuMDExIDQuMDYsNS4xNTUgNC4wNiw2LjY4NyBDNC4wNiw3LjY2MyA0LjM5Myw4LjMyMyA0LjM5Myw4LjMyMyBDNC4zOTMsOC4zMjMgMy4yNTEsMTMuMTE3IDMuMDUxLDEzLjk1NyBDMi42NTIsMTUuNjI5IDIuOTkxLDE3LjY3OSAzLjAxOSwxNy44ODYgQzMuMDM2LDE4LjAwOSAzLjE5NSwxOC4wMzggMy4yNjcsMTcuOTQ2IEMzLjM3LDE3LjgxMiA0LjcsMTYuMTg3IDUuMTUxLDE0LjU2MiBDNS4yNzksMTQuMTAyIDUuODg1LDExLjcyIDUuODg1LDExLjcyIEM2LjI0OCwxMi40MDYgNy4zMDgsMTMuMDA5IDguNDM1LDEzLjAwOSBDMTEuNzksMTMuMDA5IDE0LjA2Niw5Ljk3OSAxNC4wNjYsNS45MjMgQzE0LjA2NiwyLjg1NyAxMS40NDQsMCA3LjQ1OCwwIFoiIGZpbGw9IiNmZmYiPjwvcGF0aD48L2c+PC9zdmc+);
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_white { 
+  background-color: #fff;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save { 
+  border-radius: 2px;
+  text-indent: 20px;
+  width: auto;
+  padding: 0 4px 0 0;
+  text-align: center;
+  font: 11px/20px "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background: #bd081c url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 3px 50% no-repeat;
+  background-size: 14px 14px;
+  -webkit-font-smoothing: antialiased;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save:hover { 
+  background-color: #aa0719;
+  box-shadow: none;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save .PIN_1490762817099_count { 
+  text-indent: 0;
+  position: absolute;
+  color: #555;
+  background: #efefef;
+  border-radius: 2px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save .PIN_1490762817099_count::before { 
+  content: "";
+  position: absolute;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save.PIN_1490762817099_beside .PIN_1490762817099_count { 
+  right: -46px;
+  height: 20px;
+  width: 40px;
+  font-size: 10px;
+  line-height: 20px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save.PIN_1490762817099_beside .PIN_1490762817099_count::before { 
+  top: 3px;
+  left: -4px;
+  border-right: 7px solid #efefef;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save.PIN_1490762817099_above .PIN_1490762817099_count { 
+  top: -36px;
+  width: 100%;
+  height: 30px;
+  font-size: 10px;
+  line-height: 30px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save.PIN_1490762817099_above .PIN_1490762817099_count::before { 
+  bottom: -4px;
+  left: 4px;
+  border-top: 7px solid #efefef;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_save.PIN_1490762817099_above.PIN_1490762817099_padded { 
+  margin-top: 28px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall { 
+  height: 28px;
+  width: 56px;
+  border-radius: 3px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_above .PIN_1490762817099_count { 
+  position: absolute;
+  height: 37px;
+  width: inherit;
+  top: -37px;
+  left: 0;
+  line-height: 30px;
+  font-size: 14px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNzZweCIgd2lkdGg9IjExNHB4IiB2aWV3Qm94PSIwIDAgMTE0IDc2Ij48Zz48cGF0aCBkPSJNOSAxQzQuNiAxIDEgNC42IDEgOXY0M2MwIDQuMyAzLjYgOCA4IDhoMjZsMTggMTVoNy41bDE2LTE1SDEwNWM0LjQgMCA4LTMuNyA4LThWOWMwLTQuNC0zLjYtOC04LThIOXoiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2I1YjViNSIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+PC9nPjwvc3ZnPg==);
+  background-size: cover;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_above.PIN_1490762817099_padded { 
+  margin-top: 37px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_beside .PIN_1490762817099_count { 
+  text-indent: 5px;
+  position: absolute;
+  right: -63px;
+  height: inherit;
+  width: 63px;
+  font-size: 14px;
+  line-height: 28px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNTZweCIgd2lkdGg9IjEyNnB4IiB2aWV3Qm94PSIyIDAgMTMwIDYwIj48Zz48cGF0aCBkPSJNMTE5LjYgMmM0LjUgMCA4IDMuNiA4IDh2NDBjMCA0LjQtMy41IDgtOCA4SDIzLjNMMS42IDMyLjR2LTQuNkwyMy4zIDJoOTYuM3oiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2I1YjViNSIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+PC9nPjwvc3ZnPg==);
+  background-size: cover;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_beside.PIN_1490762817099_padded { 
+  margin-right: 63px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save { 
+  border-radius: 4px;
+  width: auto;
+  background-position-x: 6px;
+  background-size: 18px 18px;
+  text-indent: 29px;
+  font: 14px/28px "Helvetica Neue", Helvetica, Arial, "sans-serif";
+  font-weight: bold;
+  padding: 0 6px 0 0;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save .PIN_1490762817099_count { 
+  position: absolute;
+  color: #555;
+  font-size: 12px;
+  text-indent: 0;
+  background: #efefef;
+  border-radius: 4px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save .PIN_1490762817099_count::before { 
+  content: "";
+  position: absolute;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save.PIN_1490762817099_above .PIN_1490762817099_count { 
+  font-size: 14px;
+  top: -50px;
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save.PIN_1490762817099_above .PIN_1490762817099_count::before { 
+  bottom: -4px;
+  left: 7px;
+  border-top: 7px solid #efefef;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save.PIN_1490762817099_beside .PIN_1490762817099_count { 
+  font-size: 14px;
+  right: -63px;
+  width: 56px;
+  height: 28px;
+  line-height: 28px;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_tall.PIN_1490762817099_save.PIN_1490762817099_beside .PIN_1490762817099_count::before { 
+  top: 7px;
+  left: -4px;
+  border-right: 7px solid #efefef;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_round { 
+  height: 16px;
+  width: 16px;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMzBweCIgd2lkdGg9IjMwcHgiIHZpZXdCb3g9Ii0xIC0xIDMxIDMxIj48Zz48cGF0aCBkPSJNMjkuNDQ5LDE0LjY2MiBDMjkuNDQ5LDIyLjcyMiAyMi44NjgsMjkuMjU2IDE0Ljc1LDI5LjI1NiBDNi42MzIsMjkuMjU2IDAuMDUxLDIyLjcyMiAwLjA1MSwxNC42NjIgQzAuMDUxLDYuNjAxIDYuNjMyLDAuMDY3IDE0Ljc1LDAuMDY3IEMyMi44NjgsMC4wNjcgMjkuNDQ5LDYuNjAxIDI5LjQ0OSwxNC42NjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+PHBhdGggZD0iTTE0LjczMywxLjY4NiBDNy41MTYsMS42ODYgMS42NjUsNy40OTUgMS42NjUsMTQuNjYyIEMxLjY2NSwyMC4xNTkgNS4xMDksMjQuODU0IDkuOTcsMjYuNzQ0IEM5Ljg1NiwyNS43MTggOS43NTMsMjQuMTQzIDEwLjAxNiwyMy4wMjIgQzEwLjI1MywyMi4wMSAxMS41NDgsMTYuNTcyIDExLjU0OCwxNi41NzIgQzExLjU0OCwxNi41NzIgMTEuMTU3LDE1Ljc5NSAxMS4xNTcsMTQuNjQ2IEMxMS4xNTcsMTIuODQyIDEyLjIxMSwxMS40OTUgMTMuNTIyLDExLjQ5NSBDMTQuNjM3LDExLjQ5NSAxNS4xNzUsMTIuMzI2IDE1LjE3NSwxMy4zMjMgQzE1LjE3NSwxNC40MzYgMTQuNDYyLDE2LjEgMTQuMDkzLDE3LjY0MyBDMTMuNzg1LDE4LjkzNSAxNC43NDUsMTkuOTg4IDE2LjAyOCwxOS45ODggQzE4LjM1MSwxOS45ODggMjAuMTM2LDE3LjU1NiAyMC4xMzYsMTQuMDQ2IEMyMC4xMzYsMTAuOTM5IDE3Ljg4OCw4Ljc2NyAxNC42NzgsOC43NjcgQzEwLjk1OSw4Ljc2NyA4Ljc3NywxMS41MzYgOC43NzcsMTQuMzk4IEM4Ljc3NywxNS41MTMgOS4yMSwxNi43MDkgOS43NDksMTcuMzU5IEM5Ljg1NiwxNy40ODggOS44NzIsMTcuNiA5Ljg0LDE3LjczMSBDOS43NDEsMTguMTQxIDkuNTIsMTkuMDIzIDkuNDc3LDE5LjIwMyBDOS40MiwxOS40NCA5LjI4OCwxOS40OTEgOS4wNCwxOS4zNzYgQzcuNDA4LDE4LjYyMiA2LjM4NywxNi4yNTIgNi4zODcsMTQuMzQ5IEM2LjM4NywxMC4yNTYgOS4zODMsNi40OTcgMTUuMDIyLDYuNDk3IEMxOS41NTUsNi40OTcgMjMuMDc4LDkuNzA1IDIzLjA3OCwxMy45OTEgQzIzLjA3OCwxOC40NjMgMjAuMjM5LDIyLjA2MiAxNi4yOTcsMjIuMDYyIEMxNC45NzMsMjIuMDYyIDEzLjcyOCwyMS4zNzkgMTMuMzAyLDIwLjU3MiBDMTMuMzAyLDIwLjU3MiAxMi42NDcsMjMuMDUgMTIuNDg4LDIzLjY1NyBDMTIuMTkzLDI0Ljc4NCAxMS4zOTYsMjYuMTk2IDEwLjg2MywyNy4wNTggQzEyLjA4NiwyNy40MzQgMTMuMzg2LDI3LjYzNyAxNC43MzMsMjcuNjM3IEMyMS45NSwyNy42MzcgMjcuODAxLDIxLjgyOCAyNy44MDEsMTQuNjYyIEMyNy44MDEsNy40OTUgMjEuOTUsMS42ODYgMTQuNzMzLDEuNjg2IiBmaWxsPSIjYmQwODFjIj48L3BhdGg+PC9nPjwvc3ZnPg==) 0 0 no-repeat;
+  background-size: 16px 16px;
+  box-shadow: none;
+}
+ .PIN_1490762817099_button_pin.PIN_1490762817099_round.PIN_1490762817099_tall { 
+  height: 32px;
+  width: 32px;
+  background-size: 32px 32px;
+}
+</style></head>
+<body class="page-template-default page page-id-697 page-child parent-pageid-63">
+<div id="container" class="hfeed">
+<div id="header">
+<div id="logo">
+<a href="http://xda-university.com/"><img src="input_files/cropped-cropped-xdau_small2.png" alt="XDA-University" height="70" width="400"></a>
+</div> 
+<div class="main-nav"><div id="responsive_current_menu_item">Porting AOSP ROMs using Source Code</div><ul class="menu"><li><a href="http://xda-university.com/">Home</a></li><li class="page_item page-item-6"><a href="http://xda-university.com/introduction-to-xda-university">Introduction</a></li><li class="page_item page-item-8 page_item_has_children"><a href="http://xda-university.com/as-a-user">As a User</a><ul class="children"><li class="page_item page-item-59"><a href="http://xda-university.com/as-a-user/how-to-use-what-i-find-on-xda">How to use what I find on XDA</a></li><li class="page_item page-item-10"><a href="http://xda-university.com/as-a-user/android-dictionary">Android Dictionary</a></li><li class="page_item page-item-12"><a href="http://xda-university.com/as-a-user/a-new-users-guide-to-xda-developers">A New Users’ Guide to XDA-Developers</a></li><li class="page_item page-item-950"><a href="http://xda-university.com/as-a-user/a-new-users-guide-to-android">A New User’s Guide to Android</a></li><li class="page_item page-item-619"><a href="http://xda-university.com/as-a-user/android-flashing-guide">Android Flashing Guide</a></li><li class="page_item page-item-614"><a href="http://xda-university.com/as-a-user/introduction-to-basic-rom-theming">Introduction to Basic ROM Theming</a></li><li class="page_item page-item-616"><a href="http://xda-university.com/as-a-user/zip-based-rom-tweaking">ZIP-based ROM Tweaking</a></li><li class="page_item page-item-835"><a href="http://xda-university.com/as-a-user/how-to-recover-from-a-bootloop">How to recover from a bootloop</a></li></ul></li><li class="page_item page-item-63 page_item_has_children current_page_ancestor current_page_parent"><a href="http://xda-university.com/as-a-developer">As a Developer</a><ul class="children"><li class="page_item page-item-1033"><a href="http://xda-university.com/as-a-developer/adding-features-to-your-kernel">Adding features to your kernel</a></li><li class="page_item page-item-68"><a href="http://xda-university.com/as-a-developer/getting-started-with-git-version-control">Getting Started With Git Version Control</a></li><li class="page_item page-item-558"><a href="http://xda-university.com/as-a-developer/getting-started-building-a-kernel-from-source">Getting Started: Building a Kernel from source</a></li><li class="page_item page-item-743"><a href="http://xda-university.com/as-a-developer/introduction-how-an-android-rom-is-built">How to Build an Android ROM</a></li><li class="page_item page-item-772"><a href="http://xda-university.com/as-a-developer/getting-started-setting-up-android-development-environment">Getting Started : Setting up Android Development Environment</a></li><li class="page_item page-item-1104"><a href="http://xda-university.com/as-a-developer/getting-started-android-studio">Getting Started with Android Studio</a></li><li class="page_item page-item-66"><a href="http://xda-university.com/as-a-developer/getting-started-building-android-from-source">Getting Started: Building Android From Source</a></li><li class="page_item page-item-1085"><a href="http://xda-university.com/as-a-developer/downloadcompile-specific-rom-parts">How to Download/Compile Specific Parts of a ROM</a></li><li class="page_item page-item-856"><a href="http://xda-university.com/as-a-developer/repo-tips-tricks">Repo: Tips &amp; Tricks</a></li><li class="page_item page-item-958"><a href="http://xda-university.com/as-a-developer/local_manifests-cookbook">local_manifests Cookbook</a></li><li class="page_item page-item-548"><a href="http://xda-university.com/as-a-developer/porting-clockworkmod-recovery-to-a-new-device">Porting ClockworkMod Recovery to a New Device</a></li><li class="page_item page-item-697 current_page_item"><a href="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code">Porting AOSP ROMs using Source Code</a></li><li class="page_item page-item-603"><a href="http://xda-university.com/as-a-developer/porting-android-to-non-android-devices">Porting Android To Non-Android Devices</a></li></ul></li><li class="page_item page-item-27"><a href="http://xda-university.com/helpful-links">Helpful Links</a></li><li class="page_item page-item-643"><a href="http://xda-university.com/video-guides">Video Guides</a></li><li class="page_item page-item-98"><a href="http://xda-university.com/suggest-content">Suggest Content</a></li><li class="page_item page-item-712"><a href="http://forum.xda-developers.com/forumdisplay.php?f=2060" target="_blank">Forums</a></li></ul><a id="responsive_menu_button"></a></div>
+</div> 
+<div id="wrapper" class="clearfix">
+<div id="content" class="grid col-620">
+<div id="post-697" class="post-697 page type-page status-publish hentry">
+<h1 class="entry-title post-title">Porting AOSP ROMs using Source Code</h1>
+<div class="post-entry">
+<p><span style="font-size: 13px;">This will be a rough guide to help people port their favourite <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="0">AOSP</span>
+ ROMs using the open source Android code, thereby enabling your device 
+to run full ROMs unofficially, built from source. This means you can be 
+running the latest version of the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="1">ROM</span> simply by updating your source code and re-building.</span></p>
+<p>Some of you maybe thinking “Wait don’t I need to know how to program 
+to do this?” Being able to program is not necessarily required (although
+ if you are interested in learning, check out the <a href="http://xda-university.com/helpful-links">Helpful&nbsp;Links</a> page) – more important are some hours to research the <a href="http://xda-university.com/as-a-developer/getting-started-with-git-version-control">use of git</a>, looking at some existing <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="2">ROM</span> repository setups like Cyanogenmod and AOKP, and getting a feel as to how a new device is supported.</p>
+<p>This guide is for the people who want an <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="3">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="4">rom</span>
+ that is not currently provided for by a developer. For example your 
+device might have Cyanogenmod already available, however you may wish to
+ run AOKP, because it allows more customisation without the need to 
+decompile and recompile apks etc.</p>
+<p>***Disclaimer – Please check if permission is needed before kanging ***<br>
+If the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="5">rom</span> that’s been ported is already available for the device and it’s already built from source not a <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="6">rom</span>
+ – zip port then please try to add some unique features as there will be
+ not much point in porting if there it’s any additional value to what is
+ already available and it will just create a massive mess in your device
+ development section. However, what this allows us as extreme 
+enthusiasts is to reduce the workload for our developers while, giving 
+something back to the community in addition to showing your appreciation
+ to your device developer/s or power members.</p>
+<p>Ok now to the tools needed :<br>
+You will need a PC if not you wouldn’t be reading this.<br>
+A Github account created with <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="7">Git</span> installed on your system and if possible some knowledge on <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="8">git</span> commands or time to research on them if not known.<br>
+For a head start on some commands please refer to the excellent guide on
+ XDA by forum moderator eagleeyetom called [Guide] How to use Github and
+ can be found by searching on xda developers website.<br>
+Some experience with terminal if using Linux<br>
+A device and vendor tree for your device<br>
+Your <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="9" aria-describedby="qtip-9">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="10">rom</span> of choice<br>
+Some hours of your time to work on this</p>
+<p>This can be done on any platform that has <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="11">git</span>
+ supported so windows, linux or mac but you will need linux to build 
+android. In this guide I shall be using linux as it’s my preferred 
+system and my distribution of choice at the moment Zorin OS 6 as I have 
+found it to be the fastest and least resource hungry OS for me so far. 
+So all commands in this guide will be using terminal.</p>
+<p>For a guide on how to setup an android environment please refer to the guide on how to compile from source found on XDA-U</p>
+<p>and for <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="12">git</span> here –<a href="https://help.github.com/articles/set-up-git"> https://help.github.com/articles/set-up-git</a> —-&gt; This is a perfect tutorial and one needed to begin your learning process.</p>
+<p>Throughout this guide I shall refer to device <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="13">repo</span> or device tree they mean the same thing. It’s just different ways I like to refer to them. It means the device repository.</p>
+<p>Ok now to the tutorial :</p>
+<p>Once <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="14">git</span> is setup we now want to look for the device’s <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="15">repo</span> …. If CM or another <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="16">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="17">rom</span>
+ is already available for your device then look for the github page for 
+it by either searching on google or looking for your developer’s github 
+page.</p>
+<p>Here is how one looks :<img alt="" src="input_files/K7bJmcqjjFFLODaCXyv5f5mmqQTv37mzN4Nk_MMsk_AMeqAk_Ehgj8lXJhpN.png" height="347px;" width="634px;"></p>
+<p>As shown above the name setup is usually something like 
+android_device_manufacturer_device or device_manufacturer_device. This 
+can be used to help find the device tree using a search engine.</p>
+<p>Ok once we find that we are going to fork the device <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="18">repo</span> so we can edit it to work with the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="19">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="20">rom</span> we are porting. As different roms use different configurations for their setup.</p>
+<p>You can fork a project by clicking the fork button on the top right of the github page like so –<img alt="" src="input_files/MLklLSrYlGnJxQF_U9ZZ_E3kzd25f1TZECEJK995i4TvVF9wzIKdT1lrgl7u.png" height="171px;" width="592px;"><br>
+Once that’s done we’re going to need to fork your device’s proprietary 
+vendor files. Cyanogenmod usually names their repos differently to some 
+other teams so when searching for &nbsp;for a vendor <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="21">repo</span>
+ for your device on Cyanogenmod it will be 
+properietary_vendor_manufacturer, &nbsp;whereas others teams might just 
+name it vendor_manufacturer.<img alt="" src="input_files/UrFDjJf5fruwPKKa2E73_ErUo1NfqRkRyVA4I-wLQ2C4XD3Jueg7Q4JPdt73.png" height="289px;" width="619px;"><br>
+Now once that’s done go to the github page of the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="22">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="23">rom</span> that is being ported and also fork their vendor setup <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="24">repo</span>
+ so we can add the device to the setup so it can be called later on when
+ we run the . build/envsetup or source build/envsetup.sh command this 
+allows us to compile the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="25">rom</span> after when we have selected our target device.</p>
+<p>Once that’s done we are now going to start cloning these repos onto 
+your local machine so we can modify some files to add our device. Best 
+way to do this is create a new directory where all the work is going to 
+be done in your home folder and cd into that directory. So mkdir 
+directory(name it whatever you want), then cd directory. So for example 
+if the name of the new directory was named github then the commands will
+ be mkdir github, cd github. Once that’s done navigate to your account 
+page on github and clone the repos we forked earlier. To do this we look
+ for the ssh url on each <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="26">repo</span> page then we copy it. Then we type <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="27">git</span> clone and paste the url and click enter on the keyboard. This will clone the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="28">repo</span> from your github(remote) to your local(system) allowing you to make changes to the files then upload them back to github.<img alt="" src="input_files/xg96xFx5nSbWSiV9CyIjqSGoIcmCzpmH4yUVfj73mdX5YRRpPbzjqD0pfqRr.png" height="277px;" width="497px;"><br>
+<img alt="" src="input_files/1GFQbcdOpZkaDf-gMVy8pwo4qBgeOK0Pahh53JFpPdhIhM7Wqpj9-92ocLES.png" height="327px;" width="489px;"></p>
+<p>So when cloning is done the device, vendor tree and the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="29">rom</span>’s
+ vendor tree should be present. Now this is the part where we really 
+need to switch on our brains. First go back to the github page of the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="30">rom</span>’s
+ vendor tree and click on commits now look through them and find one 
+where a new device is added. Copy this new configuration and apply it to
+ your device by either modifying existing files or creating new ones. To
+ ensure no conflicts arise when envsetup.sh is ran try to make the 
+product_name different but ensure the product_device and product_model 
+are the same as the one in the device tree. <img alt="" src="input_files/QCJioBix8wGUB0vFgs1h7sQmVGENlkpSahtD4fb_wPMA3aqtL6bKw4qbi2do.png" height="287px;" width="535px;"></p>
+<p>Once the device has been added what is left is to push the changes to your remote(github) by using the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="31">git</span> push command. This can be done by first using <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="32">git</span> add -A which lets all the new files and changes to be tracked. Then we use the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="33">git</span> commit -am ” message &nbsp;“. E.g <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="34">git</span>
+ commit -am “Add defy to the mix”. This adds a commit message which will
+ appear on our remote branch with the new changes. Finally we use <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="35">git</span> push origin &lt;branch name&gt; to push the changes to our remote. E.g <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="36">git</span> push origin jellybean</p>
+<p>Additionally look at some device setups on the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="37">rom</span>’s github page and see if any changes are needed to make your device configuration compatible with the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="38">rom</span>’s vendor tree. Usually none are need but it depends on how the person or team has setup their vendor tree.</p>
+<p>Now this part is the longest and can be the most annoying process as 
+we need to find the changes that are necessary to ensure the device 
+boots when the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="39">rom</span> has been compiled. This can be done in a number of ways but the best will be to kindly ask one of your device <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="40">rom</span> developer/s or member/s that have created the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-0" data-hasqtip="41">AOSP</span> <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="42">rom</span> device tree that is been used to port the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="43">rom</span> you’re porting. Depending on what type of device you have if it has a locked or unlocked <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-41" data-hasqtip="44">bootloader</span> then changes will have to be cherry-picked or merged in different places such as frameworks_base, system_core, etc.<br>
+Refer back to the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="45">git</span> guide in the requirements on how to use these commands like <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="46">git</span> cherry-pick, <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="47">git</span>
+ merge. I can’t really guide you here as each device is different so 
+this is the part where you need your brain at maximum capacity.</p>
+<p>Here you will be cloning all the repos where changes need to happen from the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="48">rom</span>’s github page you’re porting. Then cherry-picking and merging these changes. Remember to first add the remote with <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-3" data-hasqtip="49">git</span> remote add &lt;name&gt; before you start cherry-picking so the SHA number can be found.</p>
+<p>Also remember to add your repos to the platform_mainfest or android(if it’s a CM based <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="50">rom</span>) Additionally, check your device maintainer’s setup to see if any additional repos any needed.<br>
+Once that has been resolved push the changes to your remote and make a new directory in your home directory then, <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="51">repo</span> init and <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-2" data-hasqtip="52">repo</span> sync, chose your device target with the lunch command and finally use mka to compile the <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-16" data-hasqtip="53">rom</span>. Pat yourself if it compile without errors.</p>
+<p>Good Luck and Enjoy your hard work if it’s successful. However, if 
+the unfortunate happens then report any issues here and me and the 
+others members of XDA will try help out as this is XDA after all where 
+we help each other, learn and expand our knowledge of Android.</p>
+<p>For an example of what can be achieved look at some of my work and thank you for your time.</p>
+ <div class="social-ring">
+<div class="social-ring-button"><fb:like href="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code" showfaces="false" layout="box_count" action="like" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=0&amp;href=http%3A%2F%2Fxda-university.com%2Fas-a-developer%2Fporting-aosp-roms-using-source-code&amp;layout=box_count&amp;locale=en_US&amp;sdk=joey&amp;show_faces=false"><span style="vertical-align: bottom; width: 48px; height: 40px;"><iframe name="f25e2debbcecc88" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" style="border: medium none; visibility: visible; width: 48px; height: 40px;" src="input_files/like.htm" class="" height="1000px" frameborder="0" width="1000px"></iframe></span></fb:like></div>
+<div class="social-ring-button"><a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code', 'newwindow', 'width=600, height=450'); return false;">
+<img style="display:block; background: none; padding: 0px; border:0px;" src="input_files/sr-fb-share.png" alt="Share">
+</a></div>
+<div class="social-ring-button"><iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="input_files/tweet_button.htm" data-url="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code" frameborder="0"></iframe></div>
+<div class="social-ring-button"><div style="text-indent: 0px; margin: 0px; padding: 0px; background: transparent none repeat scroll 0% 0%; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 50px; height: 60px;" id="___plusone_0"><iframe ng-non-bindable="" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 50px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 60px;" tabindex="0" vspace="0" id="I0_1490762816302" name="I0_1490762816302" src="input_files/fastbutton.htm" data-gapiattached="true" title="+1" frameborder="0" width="100%"></iframe></div></div>
+<div class="social-ring-button"><span class="PIN_1490762817099_button_pin PIN_1490762817099_above" data-pin-log="button_pinit" data-pin-href="https://www.pinterest.com/pin/create/button/?guid=TLZ5DUg64_yS-1&amp;url=http%3A%2F%2Fxda-university.com%2Fas-a-developer%2Fporting-aosp-roms-using-source-code&amp;media=https%3A%2F%2Flh3.googleusercontent.com%2FK7bJmcqjjFFLODaCXyv5f5mmqQTv37mzN4Nk_MMsk_AMeqAk_Ehgj8lXJhpNR_ivvnGzsN2UVM8_xOxuFwwCs_9ItJFNrM-TZtO2ZsXsfA5uRN_zKWU&amp;description=Porting%2BAOSP%2BROMs%2Busing%2BSource%2BCode" data-pin-x="0"><span class="PIN_1490762817099_count" data-pin-href="https://www.pinterest.com/pin/create/button/?guid=TLZ5DUg64_yS-1&amp;url=http%3A%2F%2Fxda-university.com%2Fas-a-developer%2Fporting-aosp-roms-using-source-code&amp;media=https%3A%2F%2Flh3.googleusercontent.com%2FK7bJmcqjjFFLODaCXyv5f5mmqQTv37mzN4Nk_MMsk_AMeqAk_Ehgj8lXJhpNR_ivvnGzsN2UVM8_xOxuFwwCs_9ItJFNrM-TZtO2ZsXsfA5uRN_zKWU&amp;description=Porting%2BAOSP%2BROMs%2Busing%2BSource%2BCode" data-pin-log="button_pinit" data-pin-x="0">0</span></span></div>
+</div><!-- Social Ring Buttons End -->
+									</div>
+				<!-- end of .post-entry -->
+
+				
+
+<div class="post-edit"></div>
+							</div><!-- end of #post-697 -->
+			
+						
+
+
+
+			
+		
+</div><!-- end of #content -->
+
+
+	<div id="widgets" class="grid col-300 fit">
+		
+		<div id="search-2" class="widget-wrapper widget_search"><form method="get" id="searchform" action="http://xda-university.com/">
+	<label class="screen-reader-text" for="s">Search for:</label>
+	<input class="field" name="s" id="s" placeholder="search here …" type="text">
+	<input class="submit" name="submit" id="searchsubmit" value="Go" type="submit">
+</form></div><div id="theme_navigation-3" class="widget-wrapper widget_theme_navigation"><div class="widget-title"><h3>Other Guides</h3></div><ul><li><a href="http://xda-university.com/as-a-developer/adding-features-to-your-kernel">Adding features to your kernel</a></li><li><a href="http://xda-university.com/as-a-developer/getting-started-setting-up-android-development-environment">Getting Started : Setting up Android Development Environment</a></li><li><a href="http://xda-university.com/as-a-developer/getting-started-android-studio">Getting Started with Android Studio</a></li><li><a href="http://xda-university.com/as-a-developer/getting-started-with-git-version-control">Getting Started With Git Version Control</a></li><li><a href="http://xda-university.com/as-a-developer/getting-started-building-a-kernel-from-source">Getting Started: Building a Kernel from source</a></li><li><a href="http://xda-university.com/as-a-developer/getting-started-building-android-from-source">Getting Started: Building Android From Source</a></li><li><a href="http://xda-university.com/as-a-developer/introduction-how-an-android-rom-is-built">How to Build an Android ROM</a></li><li><a href="http://xda-university.com/as-a-developer/downloadcompile-specific-rom-parts">How to Download/Compile Specific Parts of a ROM</a></li><li><a href="http://xda-university.com/as-a-developer/local_manifests-cookbook">local_manifests Cookbook</a></li><li><a href="http://xda-university.com/as-a-developer/porting-android-to-non-android-devices">Porting Android To Non-Android Devices</a></li><li><a href="http://xda-university.com/as-a-developer/porting-aosp-roms-using-source-code">Porting AOSP ROMs using Source Code</a></li><li><a href="http://xda-university.com/as-a-developer/porting-clockworkmod-recovery-to-a-new-device">Porting ClockworkMod Recovery to a New Device</a></li><li><a href="http://xda-university.com/as-a-developer/repo-tips-tricks">Repo: Tips &amp; Tricks</a></li></ul></div>
+			</div><!-- end of #widgets -->
+</div><!-- end of #wrapper -->
+</div><!-- end of #container -->
+
+<div id="footer" class="clearfix">
+	
+	<div id="footer-wrapper">
+
+		
+		<div class="grid col-940">
+
+			<div class="grid col-540">
+							</div>
+			<!-- end of col-540 -->
+
+			<div class="grid col-380 fit">
+				<ul class="social-icons"><li class="twitter-icon"><a href="http://twitter.com/xdauniversity"><img src="input_files/twitter-icon.png" alt="Twitter" height="24" width="24"></a></li><li class="facebook-icon"><a href="http://facebook.com/xdauniversity"><img src="input_files/facebook-icon.png" alt="Facebook" height="24" width="24"></a></li><li class="youtube-icon"><a href="http://www.youtube.com/xdadevelopers"><img src="input_files/youtube-icon.png" alt="YouTube" height="24" width="24"></a></li><li class="googleplus-icon"><a href="https://plus.google.com/b/117899181878309641668/"><img src="input_files/googleplus-icon.png" alt="Google+" height="24" width="24"></a></li></ul><!-- .social-icons -->			</div>
+			<!-- end of col-380 fit -->
+
+		</div>
+		<!-- end of col-940 -->
+		
+		<div class="grid col-300 copyright">
+			© 2017<a href="http://xda-university.com/" title="XDA-University">
+				XDA-University			</a>
+		</div>
+		<!-- end of .copyright -->
+
+		<div class="grid col-300 scroll-top"><a href="#scroll-top" title="scroll to top">↑</a></div>
+
+		<div class="grid col-300 fit powered">
+			<a href="http://cyberchimps.com/responsive-theme/" title="Responsive Theme">
+				Responsive Theme</a>
+			powered by <a href="http://wordpress.org/" title="WordPress">
+				WordPress</a>
+		</div>
+		<!-- end .powered -->
+
+	</div>
+	<!-- end #footer-wrapper -->
+
+	</div><!-- end #footer -->
+
+
+<!--Plugin Global Hide Admin Tool Bar 1.6.1 Build 2014-05-31 Active - Tag 74be16979710d4c4e7c6647856088456-->
+
+<!-- This website is patched against a big problem not solved from WordPress 3.3+ to date -->
+
+			<!-- Social Ring JS Start -->
+			<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" style="border: medium none;" src="http://staticxx.facebook.com/connect/xd_arbiter/r/1FegrZjPbq3.js?version=42#channel=f1a021daf80fa86&amp;origin=http%3A%2F%2Fxda-university.com" frameborder="0"></iframe><iframe name="fb_xdm_frame_https" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" style="border: medium none;" src="input_files/1FegrZjPbq3_002.htm" frameborder="0"></iframe></div></div></div><script data-rocketsrc="http://connect.facebook.net/en_US/all.js#xfbml=1" type="text/rocketscript" data-rocketoptimized="true"></script><script type="text/rocketscript" data-rocketsrc="http://platform.twitter.com/widgets.js" data-rocketoptimized="true"></script><script type="text/rocketscript" data-rocketoptimized="true">
+								window.___gcfg = {
+								  lang: 'en-US'
+								};
+								(function() {
+									var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+									po.src = 'https://apis.google.com/js/plusone.js';
+									var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+								})();
+							</script>
+							<script type="text/rocketscript" data-rocketsrc="https://apis.google.com/js/plusone.js" data-rocketoptimized="true"></script>		<!-- Social Ring JS End -->
+	
+				<aside id="explanatory-dictionary-page-definitions">
+					<h2> Definitioner </h2>
+					<dl>
+			
+					<dt class="explanatory-dictionary-definition-0">AOSP</dt>
+					<dd class="explanatory-dictionary-definition-0">The Android Open 
+Source Project is the Google project which makes available the source 
+code for Android, allowing anyone to build it for themselves. All 
+Android ROMs are ultimately based on AOSP at some point in their 
+development.</dd>
+				
+					<dt class="explanatory-dictionary-definition-2">Repo</dt>
+					<dd class="explanatory-dictionary-definition-2">Repo is used within
+ the Android source code to manage multiple git repositories. It can 
+synchronise them all, and carry out other actions such as setting up 
+your source tree, without having to manually define each repository 
+needing downloaded</dd>
+				
+					<dt class="explanatory-dictionary-definition-3">Git</dt>
+					<dd class="explanatory-dictionary-definition-3">The Git version 
+control system is a distributed version control system, which tracks the
+ changes made to some source code. Android and the Linux kernel make 
+heavy use of git. 
+
+Git lets multiple authors collaborate on code, and share their changes 
+quickly and easily.</dd>
+				
+					<dt class="explanatory-dictionary-definition-16">ROM</dt>
+					<dd class="explanatory-dictionary-definition-16">ROM is literally 
+“read-only memory” but its usage has changed over time. Today ROM can 
+refer to the non-volatile area of a device’s flash memory on which 
+read-only data resides or the packed image to be written to that flash 
+area.</dd>
+				
+					<dt class="explanatory-dictionary-definition-41">bootloader</dt>
+					<dd class="explanatory-dictionary-definition-41">The bootloader is 
+firmware on the phone which runs on every startup. Sometimes it may be 
+desirable to change the version of the bootloader, or to load a 
+different bootloader entirely to enable different features or a 
+completely different OS. The current version of the bootloader can be 
+viewed by entering bootloader mode, the process of which is different 
+for each and every device or manufacturer.</dd>
+				
+					</dl>
+				</aside>
+			<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketoptimized="true">
+/* <![CDATA[ */
+var _wpcf7 = {"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}},"cached":"1"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.6.1" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/themes/responsive/core/js/responsive-scripts.min.js?ver=1.2.5" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/themes/responsive/core/js/jquery.placeholder.min.js?ver=2.0.7" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/explanatory-dictionary/public/classes/../assets/js/qtip/jquery.qtip.min.js?ver=2.2.0" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketoptimized="true">
+/* <![CDATA[ */
+var qtip_settings = {"my":"bottom left","at":"top right","corner_adjust":"none","classes":"qtip-default"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-content/plugins/explanatory-dictionary/public/classes/../assets/js/qtip.js?ver=4.1.5" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketsrc="http://xda-university.com/wp-includes/js/wp-embed.min.js?ver=4.7.3" data-rocketoptimized="true"></script>
+<script type="text/rocketscript" data-rocketoptimized="true">var pltNewTabURLs = ["http:\/\/forum.xda-developers.com\/forumdisplay.php?f=2060"];(function(){(function(e){var t;t=e.jQueryWP||e.jQuery;return t(function(e){return typeof e.fn.on=="function"?e("body").on("click","a",function(t){var n;n=e(this);if(e.inArray(n.attr("href"),pltNewTabURLs)>-1)return n.attr("target","_blank")}):typeof console!="undefined"&&console!==null?console.log("Page Links To: Some other code has overridden the WordPress copy of jQuery. This is bad. Because of this, Page Links To cannot open links in a new window."):void 0})})(window)}).call(this);</script>
+
+<div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div></div><iframe name="oauth2relay870093525" id="oauth2relay870093525" src="input_files/postmessageRelay.htm" style="width: 1px; height: 1px; position: absolute; top: -100px;" tabindex="-1" aria-hidden="true"></iframe><script id="PIN_1490762817099.f.callback[1]" type="text/javascript" charset="utf-8" src="input_files/a.asc"></script><iframe id="rufous-sandbox" scrolling="no" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" title="Twitter analytics iframe" frameborder="0"></iframe><div id="qtip-9" class="qtip qtip-default qtip-default qtip-pos-bl qtip-fixed" tracking="false" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-9-content" aria-hidden="true" data-qtip-id="9" style="z-index: 15001;"><div class="qtip-tip" style="background-color: transparent ! important; border: 0px none ! important; width: 8px; height: 8px; line-height: 8px; left: -1px; bottom: -8px;"><canvas style="background-color: transparent ! important; border: 0px none ! important; width: 8px; height: 8px;" width="8" height="8"></canvas></div><div class="qtip-titlebar"><div id="qtip-9-title" class="qtip-title" aria-atomic="true">AOSP</div></div><div class="qtip-content" id="qtip-9-content" aria-atomic="true">The
+ Android Open Source Project is the Google project which makes available
+ the source code for Android, allowing anyone to build it for 
+themselves. All Android ROMs are ultimately based on AOSP at some point 
+in their development.</div></div></body></html>
+<!-- Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
+
+Object Caching 1781/1894 objects using memcache
+Page Caching using memcache
+Database Caching 5/14 queries in 0.008 seconds using memcache
+
+ Served from: xda-university.com @ 2017-03-29 04:00:39 by W3 Total Cache -->
